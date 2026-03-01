@@ -1,4 +1,4 @@
-import { ProduceType, ClassifiedVerdict } from "@/types/scan";
+import { ProduceType, Verdict } from "@/lib/types";
 import { DEFAULT_THRESHOLDS, PRODUCE_THRESHOLDS } from "./thresholds";
 
 export type ClassifierResult = {
@@ -17,7 +17,7 @@ export async function classifyProduce(
     }
 }
 
-export function verdictFromLabel(label: ClassifierResult, type: ProduceType): ClassifiedVerdict {
+export function verdictFromLabel(label: ClassifierResult, type: ProduceType): { verdict: Verdict, confidence: number } {
     const thresholds = PRODUCE_THRESHOLDS[type] || DEFAULT_THRESHOLDS;
 
     if (label.returnedLabel === "GOOD" && label.confidence >= thresholds.good) {

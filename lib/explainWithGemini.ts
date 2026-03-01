@@ -1,4 +1,4 @@
-import { ProduceType, Verdict } from "@/types/scan";
+import { ProduceType, Verdict } from "@/lib/types";
 
 function fallbackExplanation(produceType: ProduceType, verdict: Verdict, confidence: number) {
     if (verdict === "GOOD") return `This ${produceType} looks usable. Consider keeping it and using it soon.`;
@@ -12,7 +12,6 @@ export async function explainWithGemini(args: {
     verdict: Verdict;
     confidence: number;
     }): Promise<string> {
-    // For hackathon reliability: keep Gemini optional.
     // If you haven’t wired Gemini yet, return fallback.
     return fallbackExplanation(args.produceType, args.verdict, args.confidence);
 }
