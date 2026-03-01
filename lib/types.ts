@@ -1,4 +1,4 @@
-export type Verdict = 'GOOD' | 'GOING BAD' | 'BAD' | 'UNSURE'
+export type Verdict = 'GOOD' | 'GOING_BAD' | 'BAD' | 'UNSURE'
 
 export interface ScanResult {
   verdict:     Verdict

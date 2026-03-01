@@ -32,7 +32,7 @@ export async function classifyProduceWithGemini(
 
     Return ONLY valid JSON in this format:
     {
-        "verdict": "GOOD | GOING BAD | BAD | UNSURE",
+        "verdict": "GOOD | GOING_BAD | BAD | UNSURE",
         "confidence": float number between 0 and 1,
         "explanation": short sentence explaining visible cues
         "suggestion": short sentence on how to use or salvage
@@ -84,8 +84,8 @@ export function verdictFromLabel(
         return { verdict: "GOOD", confidence };
     } else if (rawLabel === "BAD" && confidence >= badThreshold) {
         return { verdict: "BAD", confidence };
-    } else if (rawLabel === "GOING BAD" && confidence >= goingBadThreshold) {
-        return { verdict: "GOING BAD", confidence };
+    } else if (rawLabel === "GOING_BAD" && confidence >= goingBadThreshold) {
+        return { verdict: "GOING_BAD", confidence };
     } else {
         return { verdict: "UNSURE", confidence };
     }
