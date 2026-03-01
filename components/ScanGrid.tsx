@@ -18,9 +18,9 @@ type Scan = {
 
 export default function ScanGrid() {
   const [scans, setScans] = useState<Scan[]>([])
-  const [selectedScan, setSelectedScan] = useState<Scan | null>(null)
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
   const [showHistory, setShowHistory] = useState(false)
-
+  const selectedScan = selectedIndex !== null ? scans[selectedIndex] : null 
   const fetchRecent = useCallback(async () => {
     try {
       const res = await fetch('/api/recent')
@@ -57,22 +57,34 @@ export default function ScanGrid() {
         <SectionHeader onViewAll={() => setShowHistory(true)} />
 
         <div className="scan-grid">
-          {scans.slice(0, 3).map((scan) => (
+          {scans.slice(0, 3).map((scan, index) => (
             <ScanCard
               key={scan.uuid}
               scan={scan}
-              onClick={() => setSelectedScan(scan)}
+              onClick={() => setSelectedIndex(index)}
             />
           ))}
         </div>
       </section>
 
-      {selectedScan && (
-        <ScanDetailModal
-          scan={selectedScan}
-          onClose={() => setSelectedScan(null)}
-        />
-      )}
+  {selectedScan && (
+    <ScanDetailModal
+      scan={selectedScan}
+      onClose={() => setSelectedIndex(null)}
+      onNext={() =>
+        setSelectedIndex((prev) =>
+          prev !== null ? (prev + 1) % scans.length : null
+        )
+      }
+      onPrev={() =>
+        setSelectedIndex((prev) =>
+          prev !== null
+            ? (prev - 1 + scans.length) % scans.length
+            : null
+        )
+      }
+    />
+  )}
 
       {showHistory && (
         <HistoryModal onClose={() => setShowHistory(false)} />
@@ -133,10 +145,16 @@ function ScanCard({
 function ScanDetailModal({
   scan,
   onClose,
-}: {
+  onNext,
+  onPrev,
+}: 
+{
   scan: Scan
   onClose: () => void
-}) {
+  onNext: () => void
+  onPrev: () => void
+})
+ {
   const styles = VERDICT_STYLES[scan.verdict] ?? VERDICT_STYLES.UNSURE
 
   return (
@@ -145,6 +163,16 @@ function ScanDetailModal({
         className="modal-panel vertical-modal"
         onClick={(e) => e.stopPropagation()}
       >
+        {/* LEFT ARROW */}
+        <button className="modal-arrow modal-arrow-left" onClick={onPrev}>
+          ←
+        </button>
+
+        {/* RIGHT ARROW */}
+        <button className="modal-arrow modal-arrow-right" onClick={onNext}>
+          →
+        </button>
+
         {/* Header */}
         <div className="modal-header">
           <div>
