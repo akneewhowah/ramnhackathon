@@ -60,7 +60,8 @@ export default function AboutPage() {
         </div>
         <div className="nav-links">
           <Link href="/"         className="nav-link">Home</Link>
-          <Link href="/dashboard" className="nav-link">Dashboard</Link>
+
+          <Link href="/resources"  className="nav-link nav-link-active">Resources</Link>
           <Link href="/history"   className="nav-link">flowercitypickers</Link>
         </div>
       </nav>
