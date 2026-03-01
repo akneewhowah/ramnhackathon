@@ -6,6 +6,7 @@ type Stats = {
   good: number | null
   goingBad: number | null
   bad: number | null
+  totalKgSaved: number | null
 }
 
 export default function StatsRow() {
@@ -13,6 +14,7 @@ export default function StatsRow() {
     good: null,
     goingBad: null,
     bad: null,
+    totalKgSaved: null,
   })
 
   useEffect(() => {
@@ -24,6 +26,7 @@ export default function StatsRow() {
         good: data.good ?? 0,
         goingBad: data.goingBad ?? 0,
         bad: data.bad ?? 0,
+        totalKgSaved: data.totalKgSaved ?? 0,
       })
     }
 
@@ -46,8 +49,12 @@ export default function StatsRow() {
     {
       icon: '♻️',
       bg: 'stat-icon-butter',
-      value: stats.goingBad ?? '-',
-      label: 'Items prevented from waste',
+      value:
+        stats.totalKgSaved !== null
+          ? stats.totalKgSaved.toFixed(2)
+          : '-',
+      unit: 'kg',
+      label: 'Food saved from waste',
     },
     {
       icon: '🌱',
@@ -64,7 +71,12 @@ export default function StatsRow() {
           <div className={`stat-icon-wrap ${s.bg}`}>
             {s.icon}
           </div>
-          <p className="stat-value">{s.value}</p>
+
+          <p className="stat-value">
+            {s.value}
+            {s.unit && <span className="stat-unit"> {s.unit}</span>}
+          </p>
+
           <p className="stat-label">{s.label}</p>
         </div>
       ))}
