@@ -340,6 +340,9 @@ body {
   padding: 0.875rem 2rem;
   border-top: 1px solid var(--border);
   display: flex; align-items: center; justify-content: space-between;
+  .donate-banner-title {
+  font-family: var(--font-fraunces), serif;
+}
 }
 .donate-nudge-text { font-size: 0.85rem; color: var(--text-mid); }
 .donate-nudge-link { color: var(--green-dk); font-weight: 600; text-decoration: none; }
@@ -351,6 +354,7 @@ body {
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
 }
+
 .stat-card {
   background: white;
   border: 1.5px solid var(--border);
@@ -358,15 +362,71 @@ body {
   padding: 1.5rem;
   box-shadow: var(--shadow);
   transition: transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 .stat-card:hover { transform: translateY(-2px); }
-.stat-icon { font-size: 1.5rem; margin-bottom: 0.875rem; }
-.stat-value {
-  font-size: 2.5rem; font-weight: 700;
-  letter-spacing: -0.04em; color: var(--text);
-  margin-bottom: 0.25rem;
+
+.stat-icon-wrap {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
 }
-.stat-label { font-size: 0.8rem; color: var(--text-lt); }
+.stat-icon-green  { background: var(--green-lt); }
+.stat-icon-butter { background: var(--butter); }
+.stat-icon-pink   { background: var(--pink); }
+
+.stat-value {
+  font-size: 2.75rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: var(--text);
+  line-height: 1;
+  font-family: var(--font-fraunces), serif;
+}
+.stat-unit {
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--text-lt);
+  line-height: 1.4;
+}
+
+/* stat */
+.scan-card-thumb {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.scan-card-thumb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 60%, rgba(255,255,255,0.15) 100%);
+  pointer-events: none;
+}
+
+.scan-card-emoji {
+  font-size: 6rem;
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.12));
+  position: relative; z-index: 1;
+}
+
+/*  */
+.verdict-bg-good   { background: linear-gradient(135deg, #d4edaa 0%, #c5e585 100%); }
+.verdict-bg-bad    { background: linear-gradient(135deg, #ffd4d4 0%, #ffbcbc 100%); }
+.verdict-bg-unsure { background: linear-gradient(135deg, #ffffd8 0%, #fff5b0 100%); }
+
 
 /* section */
 .section { display: flex; flex-direction: column; gap: 1.25rem; }
@@ -421,58 +481,82 @@ body {
   overflow: hidden;
   box-shadow: var(--shadow);
 }
+
 .table-row {
   display: grid;
-  grid-template-columns: 40px 1fr 90px 100px 80px 32px;
-  gap: 1rem; align-items: center;
+  grid-template-columns: 48px 1fr 140px 130px 90px 40px;
+  gap: 1rem;
+  align-items: center;
   padding: 0.875rem 1.5rem;
   border-bottom: 1px solid var(--border);
   transition: background 0.1s;
 }
 .table-row:last-child { border-bottom: none; }
+
 .table-header {
   background: var(--cream);
   font-size: 0.65rem; font-weight: 700;
-  letter-spacing: 0.08em; text-transform: uppercase;
+  letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--text-lt);
+  padding-top: 1rem; padding-bottom: 1rem;
 }
+
 .table-row:not(.table-header):hover { background: #f6fef0; }
+
 .table-thumb {
-  width: 36px; height: 36px; border-radius: 9px;
+  width: 40px; height: 40px; border-radius: 10px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
 }
-.table-name { font-size: 0.875rem; font-weight: 500; color: var(--text); }
-.table-sub  { font-size: 0.7rem; color: var(--text-lt); }
-.table-date { font-size: 0.8rem; color: var(--text-lt); }
-.table-conf { font-size: 0.95rem; font-weight: 700; }
-.table-btn  {
-  width: 26px; height: 26px; border-radius: 7px;
+
+.table-name { font-size: 0.9rem; font-weight: 600; color: var(--text); font-family: var(--font-fraunces), serif; }
+.table-sub  { font-size: 0.72rem; color: var(--text-lt); margin-top: 1px; }
+.table-date { font-size: 0.82rem; color: var(--text-mid); }
+.table-conf { font-size: 1rem; font-weight: 700; font-family: var(--font-fraunces), serif; }
+
+.table-btn {
+  width: 28px; height: 28px; border-radius: 8px;
   border: 1.5px solid var(--border);
   background: transparent; cursor: pointer;
-  font-size: 0.7rem; color: var(--text-lt);
+  font-size: 0.75rem; color: var(--text-lt);
+  display: flex; align-items: center; justify-content: center;
   transition: all 0.15s;
 }
-.table-btn:hover { border-color: var(--green-md); color: var(--green-dk); background: var(--green-lt); }
+.table-btn:hover {
+  border-color: var(--green-md);
+  color: var(--green-dk);
+  background: var(--green-lt);
+}
 
 /* PILLS */
 .verdict-pill {
-  display: inline-flex; align-items: center; gap: 5px;
-  padding: 0.2rem 0.65rem; border-radius: 9999px;
-  font-size: 0.68rem; font-weight: 700;
-  letter-spacing: 0.04em; text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.3rem 0.875rem;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  width: fit-content;
 }
-.verdict-pill-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
-.verdict-pill-good   { background: var(--green-lt); color: #3a5e1e; }
+
+.verdict-pill-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.verdict-pill-good   { background: var(--green-md); color: white; }
 .verdict-pill-bad    { background: var(--pink);     color: #8a2c2c; }
 .verdict-pill-unsure { background: var(--butter);   color: #6a5e00; }
 
-.verdict-bg-good   { background: var(--green-lt); }
-.verdict-bg-bad    { background: var(--pink);     }
-.verdict-bg-unsure { background: var(--butter);   }
-.verdict-text-good   { color: #3a5e1e; }
-.verdict-text-bad    { color: #8a2c2c; }
-.verdict-text-unsure { color: #6a5e00; }
+
+
+
+
 
 /* donowall */
 .donate-banner {
@@ -671,3 +755,18 @@ body {
   font-size: 1.4rem; font-weight: 700; color: var(--green-dk);
 }
 .team-name { font-size: 0.9rem; font-weight: 600; color: var(--text); }
+
+.team-photo {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* font fix */
+.about-hero-title,
+.about-section-title,
+.donate-banner-title,
+.grade-letter {
+  font-family: var(--font-fraunces), serif;
+}
