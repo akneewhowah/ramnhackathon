@@ -10,7 +10,7 @@ export default function HistoryTable() {
 
   async function fetchScans() {
     try {
-      const res = await fetch('/api/recent')
+      const res = await fetch('/api/scanned')
       const data = await res.json()
 
       const mapped: Scan[] = data.map((row: any, index: number) => ({

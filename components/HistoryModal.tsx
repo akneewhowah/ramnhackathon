@@ -5,41 +5,49 @@ import { PRODUCE_TYPES, VERDICT_STYLES } from '@/lib/constants'
 import type { Verdict } from '@/lib/types'
 
 type Scan = {
-  name:        string
-  verdict:     Verdict
-  confidence:  number
-  date:        string
-  id:          string
+  uuid: number
+  name: string
+  verdict: Verdict
+  confidence: number
+  date: string
   explanation: string
 }
 
 interface HistoryModalProps { onClose: () => void }
 
 export default function HistoryModal({ onClose }: HistoryModalProps) {
-  const [TABLE_SCANS, setTABLE_SCANS] = useState<Scan[]>([])
+  const [SCANS, setSCANS] = useState<Scan[]>([])
   const [selected, setSelected] = useState<Scan | null>(null)
 
-  async function fetchScans() {
-    const res = await fetch('/api/scans')
-    const data = await res.json()
-
-    const mapped: Scan[] = data.map((row: any) => ({
-      name: row.produce_type,
-      verdict: row.verdict,
-      confidence: row.confidence,
-      date: new Date(row.created_at).toLocaleDateString(),
-      id: String(row.id).padStart(4, '0'),
-      explanation: row.explanation || ''
-    }))
-
-    setTABLE_SCANS(mapped)
-  }
-
   useEffect(() => {
-    fetchScans()
+    async function fetchAll() {
+      const res = await fetch('/api/scanned')
+      const data = await res.json()
+
+      const mapped: Scan[] = data.map((row: any, index: number) => ({
+        uuid: row.id ?? index,
+        name: row.produce_type,
+        verdict: row.verdict,
+        confidence: row.confidence,
+        date: new Date(row.created_at).toLocaleDateString(),
+        explanation: row.explanation || '',
+      }))
+
+      setSCANS(mapped)
+    }
+
+    fetchAll()
+    function handleNewScan() {
+      fetchAll()
+    }
+
+    window.addEventListener('scanCreated', handleNewScan)
+
+    return () => {
+      window.removeEventListener('scanCreated', handleNewScan)
+    }
   }, [])
 
-  // derive emoji from constants
   function getEmoji(name: string) {
     return (
       PRODUCE_TYPES.find(
@@ -55,7 +63,7 @@ export default function HistoryModal({ onClose }: HistoryModalProps) {
         <div className="modal-header">
           <div>
             <h2 className="modal-title">Produce History</h2>
-            <p className="modal-sub">{TABLE_SCANS.length} scans recorded</p>
+            <p className="modal-sub">{SCANS.length} scans recorded</p>
           </div>
           <div className="modal-header-right">
             <button className="btn-ghost-sm">Export CSV</button>
@@ -75,13 +83,15 @@ export default function HistoryModal({ onClose }: HistoryModalProps) {
               <span />
             </div>
 
-            {TABLE_SCANS.map((s) => {
-              const styles = VERDICT_STYLES[s.verdict]
-              const isSelected = selected?.id === s.id
+            {SCANS.map((s) => {
+              const styles =
+                VERDICT_STYLES[s.verdict] ?? VERDICT_STYLES.UNSURE
+
+              const isSelected = selected?.uuid === s.uuid
 
               return (
                 <div
-                  key={s.id}
+                  key={s.uuid}
                   className={`modal-table-row ${isSelected ? 'modal-row-active' : ''}`}
                   onClick={() => setSelected(isSelected ? null : s)}
                 >
@@ -91,13 +101,16 @@ export default function HistoryModal({ onClose }: HistoryModalProps) {
 
                   <div>
                     <p className="table-name">{s.name}</p>
-                    <p className="table-sub">Scan #{s.id}</p>
+                    <p className="table-sub">
+                      Scan #{String(s.uuid).padStart(4, '0')}
+                    </p>
                   </div>
 
                   <p className="table-date">{s.date}</p>
 
                   <span className={`verdict-pill ${styles.pill}`}>
-                    <span className="verdict-pill-dot" />{s.verdict}
+                    <span className="verdict-pill-dot" />
+                    {s.verdict}
                   </span>
 
                   <p className={`table-conf ${styles.text}`}>
@@ -127,7 +140,7 @@ export default function HistoryModal({ onClose }: HistoryModalProps) {
                 <div>
                   <h3 className="detail-name">{selected.name}</h3>
                   <p className="detail-id">
-                    Scan #{selected.id} · {selected.date}
+                    Scan #{String(selected.uuid).padStart(4, '0')} · {selected.date}
                   </p>
                 </div>
               </div>
