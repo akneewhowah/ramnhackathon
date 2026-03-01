@@ -1,6 +1,7 @@
 import type { ScanResult, Verdict } from '@/lib/types'
 import { VERDICT_STYLES } from '@/lib/constants'
 
+
 interface ResultCardProps {
   result:      ScanResult
   produceType: string
@@ -19,7 +20,8 @@ const VERDICT_LABEL: Record<Verdict, string> = {
 }
 
 export default function ResultCard({ result, produceType }: ResultCardProps) {
-  const styles = VERDICT_STYLES[result.verdict]
+  const verdict = result.verdict?.toUpperCase() as Verdict
+    const styles = VERDICT_STYLES[verdict] ?? VERDICT_STYLES['UNSURE']
 
   return (
     <div className="result-card">
@@ -29,16 +31,16 @@ export default function ResultCard({ result, produceType }: ResultCardProps) {
 
         <div className={`verdict-circle ${styles.bg}`}>
           <span className="verdict-circle-emoji">
-            {VERDICT_EMOJI[result.verdict]}
+            {VERDICT_EMOJI[verdict]}
           </span>
           <span className={`verdict-circle-label ${styles.text}`}>
-            {result.verdict}
+            {verdict}
           </span>
         </div>
 
         <div className="result-info">
           <h2 className="result-title">
-            {produceType} — {VERDICT_LABEL[result.verdict]}
+            {produceType} — {VERDICT_LABEL[verdict]}
           </h2>
           <p className="result-desc">
             {result.explanation || 'No explanation available.'}
@@ -71,7 +73,7 @@ export default function ResultCard({ result, produceType }: ResultCardProps) {
       </div>
 
       {/* donation nudge for bad or unsure */}
-      {result.verdict !== 'GOOD' && (
+      {verdict !== 'GOOD' && (
         <div className="donate-nudge">
           <p className="donate-nudge-text">
             Don&apos;t waste it!{' '}

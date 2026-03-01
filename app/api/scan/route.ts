@@ -2,12 +2,9 @@
 
 import { NextRequest } from "next/dist/server/web/spec-extension/request";
 import { supabaseServer } from "@/lib/supabaseServer";
-import { ProduceType, SCAN_FORM_FIELDS, ScanResult } from "@/lib/types";
+import { SCAN_FORM_FIELDS, ScanResult } from "@/lib/types";
 import { NextResponse } from "next/dist/server/web/spec-extension/response";
-import { classifyProduce, verdictFromLabel } from "@/lib/classifyProduce";
-//import { explainWithGemini } from "@/lib/explainWithGemini";
-
-// make a post function
+import { classifyProduceWithGemini, verdictFromLabel } from "@/lib/classifyProduceGemini";
 
 export async function POST(request: NextRequest) {
     try {
@@ -24,9 +21,7 @@ export async function POST(request: NextRequest) {
             return Response.json({ error: "Produce type is required." }, { status: 400 })
         }
 
-        const pt = produceType as ProduceType;
-
-        // 1. upload to supabase storage and check for error
+        // upload to supabase storage and check for error
         const fileExt = image.name.split(".").pop() || "jpg";
         const filePath = `scans/${crypto.randomUUID()}.${fileExt}`;
 
@@ -48,18 +43,17 @@ export async function POST(request: NextRequest) {
 
         const image_url = publicUrlData.publicUrl;
 
-        const label = await classifyProduce(image_url, pt);
-        const { verdict, confidence } = verdictFromLabel(label, pt);
-
-        //const explanation = await explainWithGemini({ produceType: pt, verdict, confidence });
+        const label = await classifyProduceWithGemini(image_url, produceType);
+        const { verdict, confidence } = verdictFromLabel(label.verdict, label.confidence);
     
         const { error: insertError } = await supabaseServer.from("scans").insert({
-            produce_type: pt,
+            produce_type: produceType,
             image_url,
             verdict,
             confidence,
             // optional: session_id (add later if you generate one)
-            session_id: null
+            session_id: null,
+            explanation: label.explanation
         });
 
         if (insertError) {
@@ -68,8 +62,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({
             verdict,
             confidence,
-            explanation: "Explanation coming soon!", // replace with actual explanation once Gemini is wired up
-            image_url
+            explanation: label.explanation
         } as ScanResult);
     } catch (err: any) {
         return NextResponse.json({ error: err?.message ?? "Unknown error" }, { status: 500 });
