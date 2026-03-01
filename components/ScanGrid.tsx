@@ -204,7 +204,7 @@ function ScanDetailModal({
 
         <div className="modal-body">
 
-          {/* IMAGE ONLY HERE */}
+          {/* img*/}
           <div className="modal-image-wrap">
             <img
               src={scan.imageUrl}
@@ -244,7 +244,7 @@ function ScanDetailModal({
   )
 }
 
-/* Emoji helper */
+/* emoji */
 function getEmoji(name: string) {
   return (
     PRODUCE_TYPES.find(

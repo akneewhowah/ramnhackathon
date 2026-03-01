@@ -32,19 +32,18 @@ body {
 }
 
 /* app*/
+
 .app-shell {
-  background-image: url('/asset.png'), url('/asset2.png');
-  background-repeat: no-repeat, no-repeat;
-  background-position: right center, left bottom;
-  background-size: 400px auto, 450px auto;
-  background-attachment: fixed, fixed;
+  min-height: 100vh;
+  background-image: 
+    url('/asset.png'), 
+    url('/asset2.png'),
+    linear-gradient(135deg, #f4fce8 0%, #fdf0f4 50%, #edf8d4 100%);
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-position: right center, left bottom, center;
+  background-size: 400px auto, 400px auto, cover;
+  background-attachment: fixed, fixed, fixed;
 }
-
-
-/* background blobs 
-wip
-*/
-
 
 .nav {
   position: sticky; top: 0; z-index: 50;
@@ -421,6 +420,16 @@ wip
   align-items: center;
   justify-content: center;
 }
+
+.modal-arrow-btn {
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 1.5px solid var(--border); background: transparent;
+  cursor: pointer; font-size: 0.9rem; color: var(--text-mid);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+.modal-arrow-btn:hover { background: var(--butter); border-color: var(--green-md); }
+
 .scan-card-emoji {
   font-size: 5rem;
   /* when using real images, replace w <img>  */
@@ -740,17 +749,6 @@ wip
   display: flex; align-items: center; justify-content: center;
   padding: 2rem; animation: fadeIn 0.15s ease;
 }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-.modal-panel {
-  background: white; border-radius: var(--radius);
-  width: 100%; max-width: 900px; max-height: 82vh;
-  display: flex; flex-direction: column;
-  box-shadow: 0 24px 80px rgba(0,0,0,0.18);
-  animation: slideUp 0.2s cubic-bezier(0.34,1.56,0.64,1);
-  overflow: hidden;
-}
-@keyframes slideUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
 
 .modal-header {
   display: flex; align-items: flex-start; justify-content: space-between;
@@ -766,7 +764,25 @@ wip
   cursor: pointer; font-size: 0.8rem; color: var(--text-lt);
   display: flex; align-items: center; justify-content: center; transition: all 0.15s;
 }
-.modal-close:hover { background: var(--pink); border-color: var(--pink); color: var(--text); }
+.modal-arrow {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 50%;
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--text-mid);
+  z-index: 200;
+  transition: all 0.15s;
+  box-shadow: var(--shadow-lg);
+}
+.modal-arrow:hover { background: var(--butter); border-color: var(--green-md); }
+.modal-arrow-left  { left: calc(50% - 320px); }
+.modal-arrow-right { right: calc(50% - 320px); }
 
 /* Inner — table + optional detail side by side */
 .modal-inner { display: flex; flex: 1; overflow: hidden; }
@@ -797,6 +813,58 @@ wip
   width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
 }
+
+
+.modal-image-wrap {
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  background: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.modal-arrow-btn {
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 1.5px solid var(--border); background: transparent;
+  cursor: pointer; font-size: 0.9rem; color: var(--text-mid);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+.modal-arrow-btn:hover { background: var(--butter); border-color: var(--green-md); }
+
+.verdict-section {
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+}
+
+.analysis-title {
+  font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--text-lt); margin-bottom: 0.5rem;
+}
+
+.modal-panel {
+  background: white;
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 520px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.18);
+  animation: slideUp 0.2s cubic-bezier(0.34,1.56,0.64,1);
+  overflow-y: auto;
+  position: relative;
+}
+
 
 .table-btn-active { background: var(--green-lt); border-color: var(--green-md); color: var(--green-dk); }
 /* panel for detail */
@@ -950,77 +1018,4 @@ wip
   font-size: 0.9rem;  /* slightly smaller */
   line-height: 1.5;
   opacity: 0.85;
-}
-
-.modal-arrow:hover {
-  background: rgba(0,0,0,0.1);
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.modal-header-right {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-.modal-panel {
-  position: relative;
-}
-
-.modal-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.05);
-  border: none;
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  font-size: 20px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.modal-arrow:hover {
-  background: rgba(0, 0, 0, 0.12);
-}
-
-.modal-arrow-left {
-  left: 16px; /* outside modal */
-}
-
-.modal-arrow-right {
-  right: 16px; /* outside modal */
-}
-.scan-card-thumb {
-  width: 100%;
-  height: 140px;
-  border-radius: 14px;
-  overflow: hidden;
-  background: #f4f4f4;
-}
-
-.scan-card-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.modal-image-wrap {
-  width: 220px;
-  height: 220px;
-  border-radius: 18px;
-  overflow: hidden;
-  margin: 0 auto;
-}
-
-.modal-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
