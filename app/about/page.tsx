@@ -29,7 +29,7 @@ const VERDICTS = [
     desc: 'This produce meets required quality and safety standards. It is considered safe for consumption and suitable for redistribution.',
   },
   {
-    label: 'Unsure',
+    label: 'Going Bad',
     verdict: 'UNSURE',
     pill: 'verdict-pill-unsure',
     desc: 'This produce does not completely meet required standards. It is up to individual discretion whether it is safe for consumption.',

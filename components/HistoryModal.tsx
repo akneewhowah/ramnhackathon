@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { VERDICT_STYLES } from '@/lib/constants'
+import { VERDICT_LABEL, VERDICT_STYLES } from '@/lib/constants'
 import type { Verdict } from '@/lib/types'
 
 type Scan = {
@@ -92,7 +92,7 @@ export default function HistoryModal({ onClose }: HistoryModalProps) {
                   </div>
                   <p className="table-date">{s.date}</p>
                   <span className={`verdict-pill ${styles.pill}`}>
-                    <span className="verdict-pill-dot" />{s.verdict}
+                    <span className="verdict-pill-dot" />{VERDICT_LABEL[s.verdict]}
                   </span>
                   <p className={`table-conf ${styles.text}`}>
                     {Math.round(s.confidence * 100)}%
