@@ -129,7 +129,7 @@ export default function UploadCard({ onResult, onLoading, fileRef }: UploadCardP
         disabled={!image || loading}
         className="scan-btn"
       >
-        {loading ? ' Analyzing...' : '🌿 Analyze Freshness'}
+        {loading ? ' Analyzing...' : ' Analyze'}
       </button>
 
     </div>
