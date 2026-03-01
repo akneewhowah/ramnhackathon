@@ -48,10 +48,10 @@ const VERDICTS = [
   },
 ]
 const TEAM = [
-  { name: 'Renny',   photo: null },
+  { name: 'Renny',   photo: '/renny.jpg' },
   { name: 'Anny',    photo: '/anny.jpeg' },
-  { name: 'Niamh',   photo: null },
-  { name: 'Michele', photo: null },
+  { name: 'Niamh',   photo: '/niamh.jpg' },
+  { name: 'Michele', photo: '/michele.jpeg' },
 ]
 
 export default function AboutPage() {
