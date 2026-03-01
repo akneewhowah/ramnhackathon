@@ -140,9 +140,10 @@ function ScanDetailModal({
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div
-        className="modal-panel"
+        className="modal-panel vertical-modal"
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Header */}
         <div className="modal-header">
           <div>
             <h2 className="modal-title">{scan.name}</h2>
@@ -156,35 +157,26 @@ function ScanDetailModal({
           </button>
         </div>
 
-        <div className="modal-inner">
-          <div className="detail-panel">
-            <div className="detail-panel-header">
-              <div className={`detail-thumb-lg ${styles.bg}`}>
-                <span className="text-7xl">
-                  {getEmoji(scan.name)}
-                </span>
-              </div>
-            </div>
-
-            <div className="detail-divider" />
-
-            <div className="detail-row">
-              <span className={`verdict-pill ${styles.pill}`}>
-                <span className="verdict-pill-dot" />
-                {VERDICT_LABEL[scan.verdict]}
-              </span>
-
-              <span className={`detail-conf ${styles.text}`}>
-                {Math.round(scan.confidence * 100)}%
-              </span>
-            </div>
+        {/* Center Content */}
+        <div className="modal-body-vertical">
+          <div className={`emoji-circle ${styles.bg}`}>
+            <span className="text-8xl">
+              {getEmoji(scan.name)}
+            </span>
           </div>
 
-          <div className="px-10 py-5 detail-section">
-            <p className="detail-section-label">
-              ✦ Gemini Analysis
-            </p>
-            <p className="detail-section-body">
+          <span className={`verdict-pill ${styles.pill}`}>
+            <span className="verdict-pill-dot" />
+            {VERDICT_LABEL[scan.verdict]}
+          </span>
+
+          <p className={`confidence ${styles.text}`}>
+            {Math.round(scan.confidence * 100)}%
+          </p>
+
+          <div className="analysis-section">
+            <p className="analysis-label">✦ Gemini Analysis</p>
+            <p className="analysis-text">
               {scan.explanation ||
                 'No Gemini analysis available yet.'}
             </p>
