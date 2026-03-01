@@ -6,7 +6,7 @@ export interface ScanResult {
   explanation: string   // Gemini-generated text
 }
 
-export interface MockScan {
+export interface Scan {
   uuid:       number
   emoji:      string
   name:       string
