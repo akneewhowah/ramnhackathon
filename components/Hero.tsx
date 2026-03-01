@@ -1,9 +1,20 @@
+import type { ScanResult } from '@/lib/types'
+import UploadCard from './UploadCard'
+
+
 interface HeroProps {
   onUploadClick: () => void
 }
 
 export default function Hero({ onUploadClick }: HeroProps) {
+  let images: string[] = ['IMG_8377.jpg', 'IMG_8378.jpg', 'IMG_8380.jpg','IMG_8381.jpg','IMG_8382.jpg','IMG_8383.jpg','IMG_8384.jpg'];
+  const randomDecimal = Math.random(); 
+  const min = 1;
+  const max = images.length;
+  const randomInt = Math.floor(Math.random() * (max - min + 1)) + min; 
+  const chosen = 'public/' + images[randomInt];
   return (
+    
     <div className="hero-left">
       <div className="hero-badge">
         <span className="hero-badge-dot" />
