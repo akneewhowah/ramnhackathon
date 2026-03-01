@@ -33,7 +33,8 @@ export default function Home() {
 
         {/* upload card + left side */}
         <section className="hero-section">
-          <Hero onUploadClick={() => fileRef.current?.click()} />
+          <Hero onUploadClick={() => fileRef.current?.click()} 
+            fileRef={fileRef} />
           <UploadCard
             fileRef={fileRef}
             onResult={(data, type) => {
