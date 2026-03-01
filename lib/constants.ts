@@ -10,10 +10,10 @@ export const PRODUCE_TYPES = [
 ]
 
 export const MOCK_SCANS: MockScan[] = [
-  { emoji: '🥕', name: 'Carrot',    verdict: 'GOOD',   confidence: 0.99, date: 'Feb 28' },
-  { emoji: '🍊', name: 'Orange', verdict: 'UNSURE', confidence: 0.71, date: 'Feb 28' },
-  { emoji: '🍅', name: 'Tomato',      verdict: 'BAD',    confidence: 0.88, date: 'Feb 25' },
-  { emoji: '🥕', name: 'Carrot',      verdict: 'GOOD',   confidence: 0.91, date: 'Feb 24' },
+  { uuid: 1, emoji: '🥕', name: 'Carrot',    verdict: 'GOOD',   confidence: 0.99, date: 'Feb 28' },
+  {  uuid: 2, emoji: '🍊', name: 'Orange', verdict: 'UNSURE', confidence: 0.71, date: 'Feb 28' },
+  { uuid: 3, emoji: '🍅', name: 'Tomato',      verdict: 'BAD',    confidence: 0.88, date: 'Feb 25' },
+  {  uuid: 4, emoji: '🥕', name: 'Carrot',      verdict: 'GOOD',   confidence: 0.91, date: 'Feb 24' },
 ]
 
 export const VERDICT_STYLES: Record<Verdict, { bg: string; text: string; pill: string }> = {

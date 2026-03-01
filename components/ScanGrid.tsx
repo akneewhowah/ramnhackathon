@@ -12,7 +12,7 @@ export default function ScanGrid() {
         {MOCK_SCANS.map(s => {
           const styles = VERDICT_STYLES[s.verdict]
           return (
-            <div key={s.name} className="scan-card">
+            <div key={s.uuid} className="scan-card">
               <div className={`scan-card-thumb ${styles.bg}`}>
                 {s.emoji}
               </div>
