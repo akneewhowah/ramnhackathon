@@ -127,24 +127,24 @@ export default function ScanGrid() {
                 ✕
               </button>
             </div>
+            
+            <div className="py-20 modal-inner">
 
-            <div className="modal-inner">
+              <div className="w-100 detail-panel">
 
-              <div className="detail-panel">
-
-                <div className="detail-panel-header ">
+                <div className="px-25 py-10 detail-panel-header ">
                   <div
-                    className={`detail-thumb-lg ${
+                    className={` detail-thumb-lg ${
                       VERDICT_STYLES[selected.verdict].bg
                     }`}
                   >
-                    <span className="text-7xl text-center">
+                    <span className="text-9xl padding-right">
                       {getEmoji(selected.name)}
                     </span>
                   </div>
                 </div>
-
-                <div className="detail-divider" />
+                
+                <div className="" />
                   <div className="detail-row">
                   <span
                     className={`verdict-pill ${
@@ -165,7 +165,7 @@ export default function ScanGrid() {
                 </div>
                 
               </div>
-                  <div className="px-10 py-5 padding-right detail-section">
+                <div className="px-10 padding-right detail-section">
                   <p className="detail-section-label">
                     ✦ Gemini Analysis
                   </p>
