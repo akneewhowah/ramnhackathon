@@ -12,6 +12,7 @@ type Scan = {
   verdict: Verdict
   confidence: number
   date: string
+  scanNumber: number
   explanation: string
 }
 
@@ -28,6 +29,7 @@ export default function ScanGrid() {
       const mapped: Scan[] = data.map((row: any, index: number) => ({
         uuid: row.id ?? index,
         name: row.produce_type,
+        scanNumber: row.scan_number,
         verdict: row.verdict as Verdict,
         confidence: row.confidence,
         date: new Date(row.created_at).toLocaleDateString(),
@@ -148,7 +150,7 @@ function ScanDetailModal({
           <div>
             <h2 className="modal-title">{scan.name}</h2>
             <p className="modal-sub">
-              Scan #{String(scan.uuid).padStart(4, '0')} · {scan.date}
+              Scan #{String(scan.scanNumber).padStart(4, '0')} · {scan.date}
             </p>
           </div>
 
