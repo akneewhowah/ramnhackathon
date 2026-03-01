@@ -4,19 +4,13 @@ import { useEffect, useState } from 'react'
 import { PRODUCE_TYPES, VERDICT_STYLES } from '@/lib/constants'
 import type { Scan } from '@/lib/types'
 
-const TABLE_SCANS = [
-  { emoji: '🥕', name: 'Carrot',    verdict: 'GOOD'   as const, confidence: 0.99, date: 'Feb 28, 2026', id: '0070' },
-  { emoji: '🍊', name: 'Orange', verdict: 'UNSURE' as const, confidence: 0.71, date: 'Feb 27, 2026', id: '0069' },
-  { emoji: '🍅', name: 'Tomato',      verdict: 'BAD'    as const, confidence: 0.88, date: 'Feb 25, 2026', id: '0068' },
-  { emoji: '🥕', name: 'Carrot',      verdict: 'GOOD'   as const, confidence: 0.97, date: 'Feb 24, 2026', id: '0067' },
-]
-
 export default function HistoryTable() {
   const [TABLE_SCANS, setTABLE_SCANS] = useState<Scan[]>([])
+  const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    async function fetchScans() {
-      const res = await fetch('/api/recent') // or /api/scans for full history
+  async function fetchScans() {
+    try {
+      const res = await fetch('/api/recent')
       const data = await res.json()
 
       const mapped: Scan[] = data.map((row: any, index: number) => ({
@@ -28,11 +22,16 @@ export default function HistoryTable() {
       }))
 
       setTABLE_SCANS(mapped)
+    } catch (err) {
+      console.error('Failed to fetch scans:', err)
+    } finally {
+      setLoading(false)
     }
+  }
 
+  useEffect(() => {
     fetchScans()
 
-    // 🔥 auto-refresh when new scan created
     function handleNewScan() {
       fetchScans()
     }
@@ -62,6 +61,20 @@ export default function HistoryTable() {
           <span>Confidence</span>
           <span />
         </div>
+
+        {/* loading state */}
+        {loading && (
+          <div className="table-row">
+            <p>Loading scans...</p>
+          </div>
+        )}
+
+        {/* empty state */}
+        {!loading && TABLE_SCANS.length === 0 && (
+          <div className="table-row">
+            <p>No scans yet.</p>
+          </div>
+        )}
 
         {/* rows */}
         {TABLE_SCANS.map((s, i) => {
@@ -101,7 +114,6 @@ export default function HistoryTable() {
             </div>
           )
         })}
-
       </div>
     </section>
   )
