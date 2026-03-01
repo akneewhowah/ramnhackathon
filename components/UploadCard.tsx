@@ -4,7 +4,7 @@ import { useRef, useState } from 'react'
 import { PRODUCE_TYPES } from '@/lib/constants'
 
 interface UploadCardProps {
-  onResult:  (result: { verdict: string; confidence: number; explanation: string }) => void
+  onResult:  (result: { verdict: string; confidence: number; explanation: string }, produceType: string) => void
   onLoading: (loading: boolean) => void
   fileRef: React.RefObject<HTMLInputElement | null>
 }
@@ -58,7 +58,7 @@ export default function UploadCard({ onResult, onLoading, fileRef }: UploadCardP
     try {
       const res  = await fetch('/api/scan', { method: 'POST', body: formData })
       const data = await res.json()
-      onResult(data)
+      onResult(data, produceType)
     } catch (err) {
       console.error(err)
       alert('Something went wrong — check your API connection.')
