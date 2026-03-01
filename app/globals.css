@@ -411,7 +411,7 @@ body {
 
 /*  */
 .verdict-bg-good   { background: linear-gradient(135deg, #d4edaa 0%, #c5e585 100%); }
-.verdict-bg-going-bad { background: linear-gradient(135deg, #fff5b0 0%, #ffe680 100%); }
+.verdict-bg-going-bad { background: linear-gradient(135deg, #fff5b0 0%, #fff0b5 100%); }
 .verdict-bg-bad    { background: linear-gradient(135deg, #ffd4d4 0%, #ffbcbc 100%); }
 .verdict-bg-unsure { background: linear-gradient(135deg, #cecece 0%, #cccccc 100%); }
 

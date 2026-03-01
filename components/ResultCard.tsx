@@ -71,13 +71,13 @@ export default function ResultCard({ result, produceType }: ResultCardProps) {
 
       </div>
 
-      {/* Gemini explanation row */}
+      {/* Gemini suggestion row */}
       <div className="gemini-row">
         <div className="gemini-icon">✦</div>
         <p className="gemini-text">
           <strong>Gemini says: </strong>
           {/* fill from gemini API */}
-          {result.explanation || '—'}
+          {result.suggestion || '—'}
         </p>
       </div>
 
