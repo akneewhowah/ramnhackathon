@@ -5,10 +5,6 @@ interface HeroProps {
 export default function Hero({ onUploadClick }: HeroProps) {
   return (
     <div className="hero-left">
-      <div className="hero-badge">
-        <span className="hero-badge-dot" />
-        Freshness Check with Gemini AI
-      </div>
 
       <h1 className="hero-title">
         Keep<br />
