@@ -30,9 +30,10 @@ export async function classifyProduceWithGemini(
     Return ONLY valid JSON in this format:
     {
         "verdict": "GOOD | BAD | UNSURE",
-        "confidence": number between 0 and 1,
+        "confidence": float number between 0 and 1,
         "explanation": short sentence explaining visible cues
     }`;
+    console.log("Gemini prompt:", prompt);
 
     const result = await model.generateContent([
         { text: prompt },
@@ -47,6 +48,7 @@ export async function classifyProduceWithGemini(
     ]);
 
     const text = result.response.text();
+    console.log("Gemini raw output:", text);
 
     try {
         const start = text.indexOf("{");
