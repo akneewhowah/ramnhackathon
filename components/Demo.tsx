@@ -7,13 +7,14 @@ interface DemoProps {
 }
 
 const DEMO_IMAGES = [
-  '/demo/banana.jpg',
   '/demo/carrot.jpg',
   '/demo/cucumber.jpg',
   '/demo/kiwi.jpg',
   '/demo/orange.jpg',
   '/demo/potato.jpg',
   '/demo/tomato.jpg',
+  '/demo/banana.jpg',
+
 ]
 
 export default function Demo({ fileRef }: DemoProps) {
