@@ -8,7 +8,6 @@ import UploadCard    from '@/components/UploadCard'
 import ResultCard    from '@/components/ResultCard'
 import StatsRow      from '@/components/StatsRow'
 import ScanGrid      from '@/components/ScanGrid'
-import HistoryTable  from '@/components/HistoryTable'
 import DonateBanner  from '@/components/DonateBanner'
 
 import type { ScanResult } from '@/lib/types'
@@ -57,7 +56,6 @@ export default function Home() {
 
         <StatsRow />
         <ScanGrid />
-        <HistoryTable />
         <DonateBanner />
 
       </main>
