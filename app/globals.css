@@ -977,3 +977,49 @@ body {
   line-height: 1.5;
   opacity: 0.85;
 }
+
+.modal-arrow:hover {
+  background: rgba(0,0,0,0.1);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header-right {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.modal-panel {
+  position: relative;
+}
+
+.modal-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.05);
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modal-arrow:hover {
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.modal-arrow-left {
+  left: 16px; /* outside modal */
+}
+
+.modal-arrow-right {
+  right: 16px; /* outside modal */
+}
