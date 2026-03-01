@@ -8,6 +8,7 @@ export type GeminiClassifierOutput = {
     verdict: Verdict;
     confidence: number; // 0..1
     explanation: string;
+    suggestion: string;
 };
 
 export async function classifyProduceWithGemini(
@@ -25,14 +26,16 @@ export async function classifyProduceWithGemini(
 
     Rules:
     - GOOD: Fresh, safe to eat, minimal blemishes
+    - GOING BAD: Some signs of spoilage like bruising, soft spots, or slight discoloration, but still usable, borderline condition
     - BAD: Mold, slime, severe rot, unsafe
-    - UNSURE: Image unclear, borderline condition, or insufficient detail
+    - UNSURE: Image unclear or insufficient detail
 
     Return ONLY valid JSON in this format:
     {
-        "verdict": "GOOD | BAD | UNSURE",
+        "verdict": "GOOD | GOING_BAD | BAD | UNSURE",
         "confidence": float number between 0 and 1,
         "explanation": short sentence explaining visible cues
+        "suggestion": short sentence on how to use or salvage
     }`;
 
     const result = await model.generateContent([
@@ -58,12 +61,14 @@ export async function classifyProduceWithGemini(
             verdict: parsed.verdict,
             confidence: Number(parsed.confidence),
             explanation: parsed.explanation,
+            suggestion: parsed.suggestion
         };
     } catch (e) {
         return {
             verdict: "UNSURE",
             confidence: 0.5,
             explanation: "Unable to confidently assess from this image.",
+            suggestion: "Please inspect manually or provide a clearer image."
         };
     }
 }
@@ -71,13 +76,16 @@ export function verdictFromLabel(
     rawLabel: Verdict, 
     confidence: number
 ): { verdict: Verdict, confidence: number } {
-    const goodThreshold = 0.7;
-    const badThreshold = 0.7;
+    const goodThreshold = 0.5;
+    const goingBadThreshold = 0.5;
+    const badThreshold = 0.5;
 
     if (rawLabel === "GOOD" && confidence >= goodThreshold) {
         return { verdict: "GOOD", confidence };
     } else if (rawLabel === "BAD" && confidence >= badThreshold) {
         return { verdict: "BAD", confidence };
+    } else if (rawLabel === "GOING_BAD" && confidence >= goingBadThreshold) {
+        return { verdict: "GOING_BAD", confidence };
     } else {
         return { verdict: "UNSURE", confidence };
     }

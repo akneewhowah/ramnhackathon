@@ -11,6 +11,7 @@ type Scan = {
   confidence: number
   date: string
   explanation: string
+  suggestion: string
 }
 
 interface HistoryModalProps { onClose: () => void }
@@ -31,6 +32,7 @@ export default function HistoryModal({ onClose }: HistoryModalProps) {
         confidence: row.confidence,
         date: new Date(row.created_at).toLocaleDateString(),
         explanation: row.explanation || '',
+        suggestion: row.suggestion || ''
       }))
 
       setSCANS(mapped)
@@ -161,6 +163,12 @@ export default function HistoryModal({ onClose }: HistoryModalProps) {
                 <p className="detail-section-label">✦ Gemini Analysis</p>
                 <p className="detail-section-body">
                   {selected.explanation || 'No Gemini analysis available yet.'}
+                </p>
+              </div>
+              <div className="detail-section">
+                <p className="detail-section-label">✦ Suggested Action</p>
+                <p className="detail-section-body">
+                  {selected.suggestion || 'No Gemini suggestion available yet.'}
                 </p>
               </div>
             </div>

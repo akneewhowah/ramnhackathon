@@ -7,14 +7,23 @@ interface ResultCardProps {
   produceType: string
 }
 
+const VERDICT_TEXT: Record<Verdict, string> = {
+  GOOD:   'GOOD',
+  GOING_BAD: 'GOING BAD',
+  BAD:    'BAD',
+  UNSURE: 'UNSURE',
+}
+
 const VERDICT_EMOJI: Record<Verdict, string> = {
   GOOD:   '✓',
+  GOING_BAD: '~',
   BAD:    '✕',
   UNSURE: '?',
 }
 
 const VERDICT_LABEL: Record<Verdict, string> = {
   GOOD:   'Good to Keep',
+  GOING_BAD: 'Going Bad, Use Soon',
   BAD:    'Should Be Tossed',
   UNSURE: 'Unclear, Use Your Judgment',
 }
@@ -34,7 +43,7 @@ export default function ResultCard({ result, produceType }: ResultCardProps) {
             {VERDICT_EMOJI[verdict]}
           </span>
           <span className={`verdict-circle-label ${styles.text}`}>
-            {verdict}
+            {VERDICT_TEXT[verdict]}
           </span>
         </div>
 
@@ -62,13 +71,13 @@ export default function ResultCard({ result, produceType }: ResultCardProps) {
 
       </div>
 
-      {/* Gemini explanation row */}
+      {/* Gemini suggestion row */}
       <div className="gemini-row">
         <div className="gemini-icon">✦</div>
         <p className="gemini-text">
           <strong>Gemini says: </strong>
           {/* fill from gemini API */}
-          {result.explanation || '—'}
+          {result.suggestion || '—'}
         </p>
       </div>
 
