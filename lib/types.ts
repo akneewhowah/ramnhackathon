@@ -7,6 +7,7 @@ export interface ScanResult {
 }
 
 export interface MockScan {
+  uuid:       number
   emoji:      string
   name:       string
   verdict:    Verdict
