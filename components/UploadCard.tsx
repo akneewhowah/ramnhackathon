@@ -59,6 +59,7 @@ export default function UploadCard({ onResult, onLoading, fileRef }: UploadCardP
       const res  = await fetch('/api/scan', { method: 'POST', body: formData })
       const data = await res.json()
       onResult(data, produceType)
+      window.dispatchEvent(new Event('scanCreated'))
     } catch (err) {
       console.error(err)
       alert('Something went wrong — check your API connection.')

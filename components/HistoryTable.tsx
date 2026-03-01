@@ -1,13 +1,42 @@
-import { MOCK_SCANS, VERDICT_STYLES } from '@/lib/constants'
+'use client'
 
-const TABLE_SCANS = [
-  { emoji: '🥕', name: 'Carrot',    verdict: 'GOOD'   as const, confidence: 0.99, date: 'Feb 28, 2026', id: '0070' },
-  { emoji: '🍊', name: 'Orange', verdict: 'UNSURE' as const, confidence: 0.71, date: 'Feb 27, 2026', id: '0069' },
-  { emoji: '🍅', name: 'Tomato',      verdict: 'BAD'    as const, confidence: 0.88, date: 'Feb 25, 2026', id: '0068' },
-  { emoji: '🥕', name: 'Carrot',      verdict: 'GOOD'   as const, confidence: 0.97, date: 'Feb 24, 2026', id: '0067' },
-]
+import { useEffect, useState } from 'react'
+import { PRODUCE_TYPES, VERDICT_STYLES } from '@/lib/constants'
+import type { Scan } from '@/lib/types'
 
 export default function HistoryTable() {
+  const [TABLE_SCANS, setTABLE_SCANS] = useState<Scan[]>([])
+
+  useEffect(() => {
+    async function fetchScans() {
+      const res = await fetch('/api/recent') // or /api/scans for full history
+      const data = await res.json()
+
+      const mapped: Scan[] = data.map((row: any, index: number) => ({
+        uuid: row.id ?? index,
+        name: row.produce_type,
+        verdict: row.verdict,
+        confidence: row.confidence,
+        date: new Date(row.created_at).toLocaleDateString(),
+      }))
+
+      setTABLE_SCANS(mapped)
+    }
+
+    fetchScans()
+
+    // 🔥 auto-refresh when new scan created
+    function handleNewScan() {
+      fetchScans()
+    }
+
+    window.addEventListener('scanCreated', handleNewScan)
+
+    return () => {
+      window.removeEventListener('scanCreated', handleNewScan)
+    }
+  }, [])
+
   return (
     <section className="section">
       <div className="section-head">
@@ -28,23 +57,39 @@ export default function HistoryTable() {
         </div>
 
         {/* rows */}
-        {TABLE_SCANS.map((s) => {
-          const styles = VERDICT_STYLES[s.verdict]
+        {TABLE_SCANS.map((s, i) => {
+          const styles =
+            VERDICT_STYLES[s.verdict] ?? VERDICT_STYLES.UNSURE
+
+          const emoji =
+            PRODUCE_TYPES.find(
+              p => p.label.toLowerCase() === s.name?.toLowerCase()
+            )?.emoji ?? '🌽'
+
           return (
-            <div key={s.id} className="table-row">
-              <div className={`table-thumb ${styles.bg}`}>{s.emoji}</div>
+            <div key={s.uuid} className="table-row">
+              <div className={`table-thumb ${styles.bg}`}>
+                {emoji}
+              </div>
+
               <div>
                 <p className="table-name">{s.name}</p>
-                <p className="table-sub">Scan #{s.id}</p>
+                <p className="table-sub">
+                  Scan #{String(i + 1).padStart(4, '0')}
+                </p>
               </div>
+
               <p className="table-date">{s.date}</p>
+
               <span className={`verdict-pill ${styles.pill}`}>
                 <span className="verdict-pill-dot" />
                 {s.verdict}
               </span>
+
               <p className={`table-conf ${styles.text}`}>
                 {Math.round(s.confidence * 100)}%
               </p>
+
               <button className="table-btn">→</button>
             </div>
           )
