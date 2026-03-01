@@ -53,8 +53,7 @@ export async function POST(request: NextRequest) {
             confidence,
             // optional: session_id (add later if you generate one)
             session_id: null,
-            explanation: label.explanation,
-            suggestion: label.suggestion
+            explanation: label.explanation
         });
 
         if (insertError) {
