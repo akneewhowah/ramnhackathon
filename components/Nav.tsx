@@ -11,7 +11,7 @@ export default function Nav({ onNewScan }: NavProps) {
       </div>
 
       <div className="nav-links">
-        <a href="/dashboard" className="nav-link">Dashboard</a>
+        <a href="/resources" className="nav-link">Resources</a>
         <a href="/about"   className="nav-link">About</a>
         <a
           href="https://flowercitypickers.org/"

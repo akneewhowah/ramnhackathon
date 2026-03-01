@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { PRODUCE_TYPES, VERDICT_STYLES } from '@/lib/constants'
+import { PRODUCE_TYPES, VERDICT_LABEL, VERDICT_STYLES } from '@/lib/constants'
 import type { Scan } from '@/lib/types'
 import HistoryModal from './HistoryModal'
 
@@ -55,7 +55,7 @@ export default function ScanGrid() {
         <div className="scan-grid">
           {SCANS.slice(0, 3).map((s, i) => {
             const styles =
-              VERDICT_STYLES[s.verdict] ?? VERDICT_STYLES.UNSURE
+             VERDICT_STYLES[s.verdict] ?? VERDICT_STYLES['UNSURE']
 
             const emoji =
               PRODUCE_TYPES.find(
@@ -82,7 +82,7 @@ export default function ScanGrid() {
 
                   <span className={`verdict-pill ${styles.pill}`}>
                     <span className="verdict-pill-dot" />
-                    {s.verdict}
+                    {VERDICT_LABEL[s.verdict]}
                   </span>
                 </div>
               </div>
