@@ -378,9 +378,10 @@ body {
 /* scan grid */
 .scan-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
 }
+
 .scan-card {
   background: white;
   border: 1.5px solid var(--border);
@@ -391,15 +392,26 @@ body {
   cursor: pointer;
 }
 .scan-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+
 .scan-card-thumb {
-  height: 120px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 3.5rem;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.scan-card-body  { padding: 1rem; }
-.scan-card-name  { font-weight: 600; font-size: 0.9rem; color: var(--text); display: flex; justify-content: space-between; margin-bottom: 0.25rem; }
-.scan-card-conf  { font-size: 0.75rem; color: var(--text-lt); }
-.scan-card-date  { font-size: 0.75rem; color: var(--text-lt); margin-bottom: 0.75rem; }
+.scan-card-emoji {
+  font-size: 5rem;
+  /* when using real images, replace w <img>  */
+  filter: drop-shadow(0 4px 16px rgba(0,0,0,0.10));
+}
+
+/*  body */
+.scan-card-body  { padding: 1rem 1.25rem 1.25rem; }
+.scan-card-row   { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.2rem; }
+.scan-card-name  { font-weight: 700; font-size: 1rem; color: var(--text); font-family: var(--font-fraunces), serif; }
+.scan-card-conf  { font-size: 0.82rem; color: var(--text-lt); }
+.scan-card-date  { font-size: 0.78rem; color: var(--text-lt); margin-bottom: 0.875rem; }
+
 
 /* table */
 .table-wrap {
