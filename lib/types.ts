@@ -1,0 +1,15 @@
+export type Verdict = 'GOOD' | 'BAD' | 'UNSURE'
+
+export interface ScanResult {
+  verdict:     Verdict
+  confidence:  number   // 0.0 – 1.0
+  explanation: string   // Gemini-generated text
+}
+
+export interface MockScan {
+  emoji:      string
+  name:       string
+  verdict:    Verdict
+  confidence: number
+  date:       string
+}

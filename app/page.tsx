@@ -1,109 +1,74 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
-type Verdict = 'GOOD' | 'BAD' | 'UNSURE'
+import Nav           from '@/components/Nav'
+import Hero          from '@/components/Hero'
+import UploadCard    from '@/components/UploadCard'
+import ResultCard    from '@/components/ResultCard'
+import StatsRow      from '@/components/StatsRow'
+import ScanGrid      from '@/components/ScanGrid'
+import HistoryTable  from '@/components/HistoryTable'
+import DonateBanner  from '@/components/DonateBanner'
 
-interface ScanResult {
-  verdict:     Verdict
-  confidence:  number
-  explanation: string
-}
+import type { ScanResult } from '@/lib/types'
 
 export default function Home() {
-  const [image, setImage]             = useState<File | null>(null)
-  const [preview, setPreview]         = useState<string | null>(null)
+  const fileRef = useRef<HTMLInputElement | null>(null)
+
+  const [result,      setResult]      = useState<ScanResult | null>(null)
   const [produceType, setProduceType] = useState('Carrot')
-  const [result, setResult]           = useState<ScanResult | null>(null)
-  const [loading, setLoading]         = useState(false)
+  const [loading,     setLoading]     = useState(false)
 
-  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0]
-    if (!file) return
-    setImage(file)
-    setPreview(URL.createObjectURL(file))
-  }
-
-  async function handleScan() {
-    if (!image) return
-    setLoading(true)
+  function handleNewScan() {
     setResult(null)
-
-    const formData = new FormData()
-    formData.append('image', image)
-    formData.append('produce_type', produceType)
-
-    try {
-      const res  = await fetch('/api/scan', { method: 'POST', body: formData })
-      const data = await res.json()
-      setResult(data)
-    } catch (err) {
-      console.error(err)
-      alert('Something went wrong.')
-    } finally {
-      setLoading(false)
-    }
+    fileRef.current?.click()
   }
 
   return (
-    <main className="page-wrapper">
-      <h1 className="page-title">veggiecheck</h1>
-      <p className="page-subtitle">Upload a photo to get info on your produce!</p>
+    <div className="app-shell">
 
-      <div className="card">
+      <Nav onNewScan={handleNewScan} />
 
-        {/* File upload */}
-        <div>
-          <label className="form-label">Photo</label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleFileChange}
-            className="file-input"
+      <main className="main-content">
+
+        {/* upload card + left side */}
+        <section className="hero-section">
+          <Hero onUploadClick={() => fileRef.current?.click()} />
+          <UploadCard
+            fileRef={fileRef}
+            onResult={(data) => {
+              setResult(data as ScanResult)
+              setProduceType(produceType)
+            }}
+            onLoading={setLoading}
           />
-        </div>
+        </section>
 
-        {/* Preview */}
-        {preview && (
-          <img src={preview} alt="Preview" className="preview-img" />
+        {/* result shows after scan*/}
+        {loading && (
+          <div className="result-loading">
+            <p>Produce Analyzing...</p>
+          </div>
+        )}
+        {result && !loading && (
+          <ResultCard result={result} produceType={produceType} />
         )}
 
-        {/* Produce type */}
-        <div>
-          <label className="form-label">Produce Type</label>
-          <select
-            value={produceType}
-            onChange={e => setProduceType(e.target.value)}
-            className="form-select"
-          >
-            {['Carrot', 'Pepper', 'Broccoli', 'Lettuce', 'Tomato', 'Other'].map(p => (
-              <option key={p}>{p}</option>
-            ))}
-          </select>
+        <StatsRow />
+        <ScanGrid />
+        <HistoryTable />
+        <DonateBanner />
+
+      </main>
+
+      <footer className="footer">
+        <span>© 2026 freshfind </span>
+        <div className="footer-links">
+          <a href="https://github.com/akneewhowah/ramnhackathon" className="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
         </div>
+      </footer>
 
-        {/* submit the img */}
-        <button
-          onClick={handleScan}
-          disabled={!image || loading}
-          className="btn-primary"
-        >
-          {loading ? 'Analyzing...' : 'Analyze Freshness'}
-        </button>
-
-      </div>
-
-      {/* result from img */}
-      {result && (
-        <div className="result-card">
-          <p className="result-eyebrow">Result</p>
-          <p className={`result-verdict verdict-${result.verdict}`}>{result.verdict}</p>
-          <p className="result-confidence">Confidence: {result.confidence}%</p>
-          {result.explanation && (
-            <p className="result-explanation">{result.explanation}</p>
-          )}
-        </div>
-      )}
-    </main>
+    </div>
   )
 }
