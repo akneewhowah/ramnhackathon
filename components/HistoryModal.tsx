@@ -1,7 +1,17 @@
 'use client'
-
 import { useEffect, useState } from 'react'
 import { VERDICT_STYLES } from '@/lib/constants'
+import type { Verdict } from '@/lib/types'
+
+type Scan = {
+  emoji:       string
+  name:        string
+  verdict:     Verdict
+  confidence:  number
+  date:        string
+  id:          string
+  explanation: string
+}
 
 const TABLE_SCANS = [
   { emoji: '🥕', name: 'Carrot',      verdict: 'GOOD'   as const, confidence: 0.99, date: 'Feb 28, 2026', id: '0070', explanation: '' },
@@ -17,7 +27,6 @@ const TABLE_SCANS = [
 
 ]
 
-type Scan = typeof TABLE_SCANS[0]
 
 interface HistoryModalProps { onClose: () => void }
 
