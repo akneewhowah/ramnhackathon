@@ -53,7 +53,8 @@ export async function POST(request: NextRequest) {
             confidence,
             // optional: session_id (add later if you generate one)
             session_id: null,
-            explanation: label.explanation
+            explanation: label.explanation,
+            suggestion: label.suggestion
         });
 
         if (insertError) {
@@ -62,7 +63,8 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({
             verdict,
             confidence,
-            explanation: label.explanation
+            explanation: label.explanation,
+            suggestion: label.suggestion
         } as ScanResult);
     } catch (err: any) {
         return NextResponse.json({ error: err?.message ?? "Unknown error" }, { status: 500 });

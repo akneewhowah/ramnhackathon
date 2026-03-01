@@ -10,7 +10,9 @@ type Scan = {
   verdict: Verdict
   confidence: number
   date: string
+  scanNumber: number
   explanation: string
+  suggestion: string
 }
 
 interface HistoryModalProps { onClose: () => void }
@@ -28,9 +30,11 @@ export default function HistoryModal({ onClose }: HistoryModalProps) {
         uuid: row.id ?? index,
         name: row.produce_type,
         verdict: row.verdict,
+        scanNumber: row.scan_number,
         confidence: row.confidence,
         date: new Date(row.created_at).toLocaleDateString(),
         explanation: row.explanation || '',
+        suggestion: row.suggestion || '',
       }))
 
       setSCANS(mapped)
@@ -102,7 +106,7 @@ export default function HistoryModal({ onClose }: HistoryModalProps) {
                   <div>
                     <p className="table-name">{s.name}</p>
                     <p className="table-sub">
-                      Scan #{String(s.uuid).padStart(4, '0')}
+                      Scan #{String(s.scanNumber).padStart(4, '0')}
                     </p>
                   </div>
 
@@ -139,7 +143,7 @@ export default function HistoryModal({ onClose }: HistoryModalProps) {
                 <div>
                   <h3 className="detail-name">{selected.name}</h3>
                   <p className="detail-id">
-                    Scan #{String(selected.uuid).padStart(4, '0')} · {selected.date}
+                    Scan #{String(selected.scanNumber).padStart(4, '0')} · {selected.date}
                   </p>
                 </div>
               </div>
@@ -163,6 +167,12 @@ export default function HistoryModal({ onClose }: HistoryModalProps) {
                   {selected.explanation || 'No Gemini analysis available yet.'}
                 </p>
               </div>
+              <div className="detail-section">
+                <p className="detail-section-label">✦ Suggestion</p>
+                <p className="detail-section-body">
+                  {selected.suggestion || 'No suggestion available yet.'}
+                </p>
+              </div>              
             </div>
           )}
 

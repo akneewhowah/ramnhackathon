@@ -1,22 +1,82 @@
-// pull from supabase
-// show values as - until real data put in
+'use client'
 
-const STATS = [
-  { icon: '🍏', bg: 'stat-icon-green', value: '67', unit: '', label: 'Items confirmed fresh' },
-  { icon: '♻️', bg: 'stat-icon-butter', value: '12', unit: '', label: 'Items prevented from waste' },
-  { icon: '🌱', bg: 'stat-icon-pink', value: '5.3', unit: 'lbs', label: 'lbs food waste avoided' },
-]
+import { useEffect, useState } from 'react'
+
+type Stats = {
+  good: number | null
+  goingBad: number | null
+  bad: number | null
+  totalKgSaved: number | null
+}
 
 export default function StatsRow() {
+  const [stats, setStats] = useState<Stats>({
+    good: null,
+    goingBad: null,
+    bad: null,
+    totalKgSaved: null,
+  })
+
+  useEffect(() => {
+    async function fetchStats() {
+      const res = await fetch('/api/stats')
+      const data = await res.json()
+
+      setStats({
+        good: data.good ?? 0,
+        goingBad: data.goingBad ?? 0,
+        bad: data.bad ?? 0,
+        totalKgSaved: data.totalKgSaved ?? 0,
+      })
+    }
+
+    fetchStats()
+
+    const handleNewScan = () => fetchStats()
+    window.addEventListener('scanCreated', handleNewScan)
+
+    return () =>
+      window.removeEventListener('scanCreated', handleNewScan)
+  }, [])
+
+  const DISPLAY_STATS = [
+    {
+      icon: '🍏',
+      bg: 'stat-icon-green',
+      value: stats.good ?? '-',
+      label: 'Items confirmed fresh',
+    },
+    {
+      icon: '♻️',
+      bg: 'stat-icon-butter',
+      value:
+        stats.totalKgSaved !== null
+          ? stats.totalKgSaved.toFixed(2)
+          : '-',
+      unit: 'kg',
+      label: 'Food saved from waste',
+    },
+    {
+      icon: '🌱',
+      bg: 'stat-icon-pink',
+      value: stats.bad ?? '-',
+      label: 'Items used for compost',
+    },
+  ]
+
   return (
     <div className="stats-section">
-      {STATS.map(s => (
+      {DISPLAY_STATS.map(s => (
         <div key={s.label} className="stat-card">
-          <div className={`stat-icon-wrap ${s.bg}`}>{s.icon}</div>
+          <div className={`stat-icon-wrap ${s.bg}`}>
+            {s.icon}
+          </div>
+
           <p className="stat-value">
             {s.value}
-            {s.unit && <span className="stat-unit">{s.unit}</span>}
+            {s.unit && <span className="stat-unit"> {s.unit}</span>}
           </p>
+
           <p className="stat-label">{s.label}</p>
         </div>
       ))}

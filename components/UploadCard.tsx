@@ -4,7 +4,7 @@ import { useRef, useState } from 'react'
 import { PRODUCE_TYPES } from '@/lib/constants'
 
 interface UploadCardProps {
-  onResult:  (result: { verdict: string; confidence: number; explanation: string }, produceType: string) => void
+  onResult:  (result: { verdict: string; confidence: number; explanation: string, suggestion: string }, produceType: string) => void
   onLoading: (loading: boolean) => void
   fileRef: React.RefObject<HTMLInputElement | null>
 }
@@ -48,9 +48,10 @@ export default function UploadCard({ onResult, onLoading, fileRef }: UploadCardP
     //   produce_type → string (e.g. 'Carrot')
     //
     // Expects back:
-    //   verdict      → 'GOOD' | 'BAD' | 'UNSURE'
+    //   verdict      → 'GOOD' | 'GOING_BAD' | 'BAD' | 'UNSURE'
     //   confidence   → number 0.0–1.0
     //   explanation  → string (Gemini-generated)
+    //   suggestion   → string (Gemini-generated)
     const formData = new FormData()
     formData.append('image', image)
     formData.append('produce_type', produceType)
