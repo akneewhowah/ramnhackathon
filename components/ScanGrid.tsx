@@ -14,6 +14,7 @@ type Scan = {
   date: string
   scanNumber: number
   explanation: string
+  suggestion: string
 }
 
 export default function ScanGrid() {
@@ -34,6 +35,7 @@ export default function ScanGrid() {
         confidence: row.confidence,
         date: new Date(row.created_at).toLocaleDateString(),
         explanation: row.explanation || '',
+        suggestion: row.suggestion || '',
       }))
 
       setScans(mapped)
@@ -185,6 +187,13 @@ function ScanDetailModal({
             <p className="analysis-body">
               {scan.explanation ||
                 'No Gemini analysis available yet.'}
+            </p>
+          </div>
+          <div className="analysis-block">
+            <p className="analysis-title">✦ Gemini Suggestion</p>
+            <p className="analysis-body">
+              {scan.suggestion ||
+                'No Gemini suggestion available yet.'}
             </p>
           </div>
         </div>
