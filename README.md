@@ -59,6 +59,12 @@ FreshFind empowers individuals to make smarter food decisions and visualize thei
 
 ---
 
+## 🎥 Demo
+
+![FreshFind Demo](./public/demo/freshy.gif)
+
+---
+
 ## 👩‍💻 Authors  
 
 Built by:  
