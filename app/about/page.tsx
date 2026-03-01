@@ -68,7 +68,14 @@ export default function AboutPage() {
           <Link href="/"         className="nav-link">Home</Link>
 
           <Link href="/resources"  className="nav-link nav-link-active">Resources</Link>
-          <Link href="/history"   className="nav-link">flowercitypickers</Link>
+          <a
+          href="https://flowercitypickers.org/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="nav-link"
+        >
+          Flower City Pickers
+        </a>
         </div>
       </nav>
 
@@ -87,12 +94,12 @@ export default function AboutPage() {
 
           </p>
           <a
-            href="https://flowercitypickers.com"
+            href="https://flowercitypickers.org"
             target="_blank"
             rel="noopener noreferrer"
             className="btn-primary"
           >
-            Visit flowercitypickers.com ↗
+            Visit flowercitypickers.org ↗
           </a>
         </section>
 
