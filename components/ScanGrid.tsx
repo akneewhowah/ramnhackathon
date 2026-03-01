@@ -5,7 +5,6 @@ import { PRODUCE_TYPES, VERDICT_LABEL, VERDICT_STYLES } from '@/lib/constants'
 import type { Verdict } from '@/lib/types'
 import HistoryModal from './HistoryModal'
 
-
 type Scan = {
   uuid: number
   name: string
@@ -15,13 +14,17 @@ type Scan = {
   scanNumber: number
   explanation: string
   suggestion: string
+  imageUrl: string
 }
 
 export default function ScanGrid() {
   const [scans, setScans] = useState<Scan[]>([])
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
   const [showHistory, setShowHistory] = useState(false)
-  const selectedScan = selectedIndex !== null ? scans[selectedIndex] : null 
+
+  const selectedScan =
+    selectedIndex !== null ? scans[selectedIndex] : null
+
   const fetchRecent = useCallback(async () => {
     try {
       const res = await fetch('/api/recent')
@@ -36,6 +39,7 @@ export default function ScanGrid() {
         date: new Date(row.created_at).toLocaleDateString(),
         explanation: row.explanation || '',
         suggestion: row.suggestion || '',
+        imageUrl: row.image_url,
       }))
 
       setScans(mapped)
@@ -46,17 +50,23 @@ export default function ScanGrid() {
 
   useEffect(() => {
     fetchRecent()
-
-    const handleNewScan = () => fetchRecent()
-
-    window.addEventListener('scanCreated', handleNewScan)
-    return () => window.removeEventListener('scanCreated', handleNewScan)
+    window.addEventListener('scanCreated', fetchRecent)
+    return () =>
+      window.removeEventListener('scanCreated', fetchRecent)
   }, [fetchRecent])
 
   return (
     <>
       <section id="recent" className="section">
-        <SectionHeader onViewAll={() => setShowHistory(true)} />
+        <div className="section-head">
+          <h2 className="section-title">Recent Scans</h2>
+          <button
+            className="section-link"
+            onClick={() => setShowHistory(true)}
+          >
+            View all →
+          </button>
+        </div>
 
         <div className="scan-grid">
           {scans.slice(0, 3).map((scan, index) => (
@@ -69,24 +79,24 @@ export default function ScanGrid() {
         </div>
       </section>
 
-  {selectedScan && (
-    <ScanDetailModal
-      scan={selectedScan}
-      onClose={() => setSelectedIndex(null)}
-      onNext={() =>
-        setSelectedIndex((prev) =>
-          prev !== null ? (prev + 1) % scans.length : null
-        )
-      }
-      onPrev={() =>
-        setSelectedIndex((prev) =>
-          prev !== null
-            ? (prev - 1 + scans.length) % scans.length
-            : null
-        )
-      }
-    />
-  )}
+      {selectedScan && (
+        <ScanDetailModal
+          scan={selectedScan}
+          onClose={() => setSelectedIndex(null)}
+          onNext={() =>
+            setSelectedIndex((prev) =>
+              prev !== null ? (prev + 1) % scans.length : null
+            )
+          }
+          onPrev={() =>
+            setSelectedIndex((prev) =>
+              prev !== null
+                ? (prev - 1 + scans.length) % scans.length
+                : null
+            )
+          }
+        />
+      )}
 
       {showHistory && (
         <HistoryModal onClose={() => setShowHistory(false)} />
@@ -95,16 +105,9 @@ export default function ScanGrid() {
   )
 }
 
-function SectionHeader({ onViewAll }: { onViewAll: () => void }) {
-  return (
-    <div className="section-head">
-      <h2 className="section-title">Recent Scans</h2>
-      <button className="section-link" onClick={onViewAll}>
-        View all →
-      </button>
-    </div>
-  )
-}
+/* ===========================
+   Scan Card (Emoji Version)
+=========================== */
 
 function ScanCard({
   scan,
@@ -113,7 +116,8 @@ function ScanCard({
   scan: Scan
   onClick: () => void
 }) {
-  const styles = VERDICT_STYLES[scan.verdict] ?? VERDICT_STYLES.UNSURE
+  const styles =
+    VERDICT_STYLES[scan.verdict] ?? VERDICT_STYLES.UNSURE
 
   return (
     <div className="scan-card" onClick={onClick}>
@@ -144,38 +148,44 @@ function ScanCard({
   )
 }
 
+/* ===========================
+   Modal (Image Here Only)
+=========================== */
+
 function ScanDetailModal({
   scan,
   onClose,
   onNext,
   onPrev,
-}: 
-{
+}: {
   scan: Scan
   onClose: () => void
   onNext: () => void
   onPrev: () => void
-})
- {
-  const styles = VERDICT_STYLES[scan.verdict] ?? VERDICT_STYLES.UNSURE
+}) {
+  const styles =
+    VERDICT_STYLES[scan.verdict] ?? VERDICT_STYLES.UNSURE
 
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div
-        className="modal-panel vertical-modal"
+        className="modal-panel"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* LEFT ARROW */}
-        <button className="modal-arrow modal-arrow-left" onClick={onPrev}>
+        <button
+          className="modal-arrow modal-arrow-left"
+          onClick={onPrev}
+        >
           ←
         </button>
 
-        {/* RIGHT ARROW */}
-        <button className="modal-arrow modal-arrow-right" onClick={onNext}>
+        <button
+          className="modal-arrow modal-arrow-right"
+          onClick={onNext}
+        >
           →
         </button>
 
-        {/* Header */}
         <div className="modal-header">
           <div>
             <h2 className="modal-title">{scan.name}</h2>
@@ -184,19 +194,23 @@ function ScanDetailModal({
             </p>
           </div>
 
-          <button className="modal-close" onClick={onClose}>
+          <button
+            className="modal-close"
+            onClick={onClose}
+          >
             ✕
           </button>
         </div>
 
-        {/* Vertical Layout */}
         <div className="modal-body">
-          <div className="emoji-wrapper">
-            <div className={`emoji-circle ${styles.bg}`}>
-              <span className="emoji-lg">
-                {getEmoji(scan.name)}
-              </span>
-            </div>
+
+          {/* IMAGE ONLY HERE */}
+          <div className="modal-image-wrap">
+            <img
+              src={scan.imageUrl}
+              alt={scan.name}
+              className="modal-image"
+            />
           </div>
 
           <div className="verdict-section">
@@ -213,23 +227,24 @@ function ScanDetailModal({
           <div className="analysis-block">
             <p className="analysis-title">✦ Gemini Analysis</p>
             <p className="analysis-body">
-              {scan.explanation ||
-                'No Gemini analysis available yet.'}
+              {scan.explanation}
             </p>
           </div>
+
           <div className="analysis-block">
             <p className="analysis-title">✦ Gemini Suggestion</p>
             <p className="analysis-body">
-              {scan.suggestion ||
-                'No Gemini suggestion available yet.'}
+              {scan.suggestion}
             </p>
           </div>
+
         </div>
       </div>
     </div>
   )
 }
 
+/* Emoji helper */
 function getEmoji(name: string) {
   return (
     PRODUCE_TYPES.find(
