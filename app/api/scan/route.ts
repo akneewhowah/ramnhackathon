@@ -5,7 +5,7 @@ import { supabaseServer } from "@/lib/supabaseServer";
 import { ProduceType, SCAN_FORM_FIELDS, ScanResult } from "@/lib/types";
 import { NextResponse } from "next/dist/server/web/spec-extension/response";
 import { classifyProduce, verdictFromLabel } from "@/lib/classifyProduce";
-//import { explainWithGemini } from "@/lib/explainWithGemini";
+import { explainWithGemini } from "@/lib/explainWithGemini";
 
 // make a post function
 

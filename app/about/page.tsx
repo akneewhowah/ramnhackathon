@@ -57,7 +57,8 @@ export default function AboutPage() {
         <div className="nav-links">
           <Link href="/"         className="nav-link">Home</Link>
           <Link href="/dashboard" className="nav-link">Dashboard</Link>
-          <Link href="/history"   className="nav-link">flowercitypickers</Link>
+          <Link href="/resources" className='nav-link'>Resources</Link>
+          <Link href="https://flowercitypickers.org/" target="_blank" rel="noopener noreferrer" className="nav-link">flowercitypickers</Link>
         </div>
       </nav>
 
