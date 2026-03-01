@@ -5,10 +5,12 @@ export interface ScanResult {
   confidence:  number   // 0.0 – 1.0
   explanation: string   // Gemini-generated text
   suggestion:  string   // Gemini-generated text
+  scanNumber?: number
 }
 
 export interface Scan {
   uuid:       number
+  scannumber: number
   emoji:      string
   name:       string
   verdict:    Verdict

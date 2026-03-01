@@ -141,7 +141,7 @@ export default function HistoryModal({ onClose }: HistoryModalProps) {
                 <div>
                   <h3 className="detail-name">{selected.name}</h3>
                   <p className="detail-id">
-                    Scan #{String(selected.uuid).padStart(4, '0')} · {selected.date}
+                    Scan #{String(selected.scanNumber).padStart(4, '0')} · {selected.date}
                   </p>
                 </div>
               </div>
