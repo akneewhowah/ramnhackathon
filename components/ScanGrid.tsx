@@ -52,43 +52,49 @@ export default function ScanGrid() {
           </button>
         </div>
 
-        <div className="scan-grid">
-          {SCANS.slice(0, 3).map((s, i) => {
-            const styles =
-             VERDICT_STYLES[s.verdict] ?? VERDICT_STYLES['UNSURE']
 
-            const emoji =
-              PRODUCE_TYPES.find(
-                p => p.label.toLowerCase() === s.name?.toLowerCase()
-              )?.emoji ?? '🌽'
+        <button
+            className="section-link"
+            onClick={() => setShowHistory(true)}
+        >
+          <div className="scan-grid">
+            {SCANS.slice(0, 3).map((s, i) => {
+              const styles =
+              VERDICT_STYLES[s.verdict] ?? VERDICT_STYLES['UNSURE']
 
-            return (
-              <div key={s.uuid} className="scan-card">
-                <div className={`scan-card-thumb ${styles.bg}`}>
-                  <span className="scan-card-emoji">{emoji}</span>
-                </div>
+              const emoji =
+                PRODUCE_TYPES.find(
+                  p => p.label.toLowerCase() === s.name?.toLowerCase()
+                )?.emoji ?? '🌽'
 
-                <div className="scan-card-body">
-                  <div className="scan-card-row">
-                    <span className="scan-card-name">{s.name}</span>
-                    <span className="scan-card-conf">
-                      {Math.round(s.confidence * 100)}%
-                    </span>
+              return (
+                <div key={s.uuid} className="scan-card">
+                  <div className={`scan-card-thumb ${styles.bg}`}>
+                    <span className="scan-card-emoji">{emoji}</span>
                   </div>
 
-                  <p className="scan-card-date">
-                    Scanned {s.date}
-                  </p>
+                  <div className="scan-card-body">
+                    <div className="scan-card-row">
+                      <span className="scan-card-name">{s.name}</span>
+                      <span className="scan-card-conf">
+                        {Math.round(s.confidence * 100)}%
+                      </span>
+                    </div>
 
-                  <span className={`verdict-pill ${styles.pill}`}>
-                    <span className="verdict-pill-dot" />
-                    {VERDICT_LABEL[s.verdict]}
-                  </span>
+                    <p className="scan-card-date">
+                      Scanned {s.date}
+                    </p>
+
+                    <span className={`verdict-pill ${styles.pill}`}>
+                      <span className="verdict-pill-dot" />
+                      {VERDICT_LABEL[s.verdict]}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            )
-          })}
-        </div>
+              )
+            })}
+          </div>
+        </button>
       </section>
 
       {showHistory && (
