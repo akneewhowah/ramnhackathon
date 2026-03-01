@@ -1,6 +1,11 @@
 export type ProduceType = "tomato" | "potato" | "orange" | "carrot" | "cucumber" | "banana" | "kiwi";
 export type Verdict = "GOOD" | "BAD" | "UNSURE";
 
+export type ClassifiedVerdict = {
+    verdict: Verdict;
+    confidence: number; // 0..1
+};
+
 export type ScanResult = {
   verdict: Verdict;
   confidence: number; // 0..1
