@@ -41,8 +41,12 @@ const VERDICTS = [
     desc: 'This produce does not meet quality and safety standards. It is NOT considered safe for consumption and is unsuitable for redistribution.',
   },
 ]
-
-const TEAM = ['Renny', 'Anny', 'Niamh', 'Michele']
+const TEAM = [
+  { name: 'Renny',   photo: null },
+  { name: 'Anny',    photo: '/anny.jpeg' },
+  { name: 'Niamh',   photo: null },
+  { name: 'Michele', photo: null },
+]
 
 export default function AboutPage() {
   return (
@@ -134,14 +138,16 @@ export default function AboutPage() {
 
         {/* our team!!!!! */}
         <section className="about-section">
-          <h2 className="about-section-title"> Team</h2>
+          <h2 className="about-section-title">Team</h2>
           <div className="team-grid">
-            {TEAM.map(name => (
-              <div key={name} className="team-card">
-                <div className="team-avatar">
-                  {name[0]}
-                </div>
-                <p className="team-name">{name}</p>
+            {TEAM.map(member => (
+              <div key={member.name} className="team-card">
+                {member.photo ? (
+                  <img src={member.photo} alt={member.name} className="team-photo" />
+                ) : (
+                  <div className="team-avatar">{member.name[0]}</div>
+                )}
+                <p className="team-name">{member.name}</p>
               </div>
             ))}
           </div>
