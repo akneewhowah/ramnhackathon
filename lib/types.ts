@@ -1,9 +1,10 @@
-export type Verdict = 'GOOD' | 'BAD' | 'UNSURE'
+export type Verdict = 'GOOD' | 'GOING_BAD' | 'BAD' | 'UNSURE'
 
 export interface ScanResult {
   verdict:     Verdict
   confidence:  number   // 0.0 – 1.0
   explanation: string   // Gemini-generated text
+  suggestion:  string   // Gemini-generated text
 }
 
 export interface Scan {

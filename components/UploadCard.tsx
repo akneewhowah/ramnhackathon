@@ -48,9 +48,10 @@ export default function UploadCard({ onResult, onLoading, fileRef }: UploadCardP
     //   produce_type → string (e.g. 'Carrot')
     //
     // Expects back:
-    //   verdict      → 'GOOD' | 'BAD' | 'UNSURE'
+    //   verdict      → 'GOOD' | 'GOING_BAD' | 'BAD' | 'UNSURE'
     //   confidence   → number 0.0–1.0
     //   explanation  → string (Gemini-generated)
+    //  suggestion   → string (Gemini-generated)
     const formData = new FormData()
     formData.append('image', image)
     formData.append('produce_type', produceType)

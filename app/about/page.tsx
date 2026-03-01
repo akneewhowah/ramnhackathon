@@ -23,22 +23,28 @@ const GRADES = [
 
 const VERDICTS = [
   {
-    label: 'Fresh',
+    label: 'GOOD',
     verdict: 'GOOD',
     pill: 'verdict-pill-good',
     desc: 'This produce meets required quality and safety standards. It is considered safe for consumption and suitable for redistribution.',
   },
   {
     label: 'Going Bad',
-    verdict: 'UNSURE',
-    pill: 'verdict-pill-unsure',
+    verdict: 'GOING_BAD',
+    pill: 'verdict-pill-going-bad',
     desc: 'This produce does not completely meet required standards. It is up to individual discretion whether it is safe for consumption.',
   },
   {
-    label: 'Unfresh',
+    label: 'BAD',
     verdict: 'BAD',
     pill: 'verdict-pill-bad',
     desc: 'This produce does not meet quality and safety standards. It is NOT considered safe for consumption and is unsuitable for redistribution.',
+  },
+  {
+    label: 'Unsure',
+    verdict: 'UNSURE',
+    pill: 'verdict-pill-unsure',
+    desc: 'The condition of this produce is uncertain based on the image. It may require further inspection to determine safety and quality.',
   },
 ]
 const TEAM = [
