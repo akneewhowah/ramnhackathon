@@ -5,9 +5,6 @@ import { supabaseServer } from "@/lib/supabaseServer";
 import { SCAN_FORM_FIELDS, ScanResult } from "@/lib/types";
 import { NextResponse } from "next/dist/server/web/spec-extension/response";
 import { classifyProduceWithGemini, verdictFromLabel } from "@/lib/classifyProduceGemini";
-//import { explainWithGemini } from "@/lib/explainWithGemini";
-
-// make a post function
 
 export async function POST(request: NextRequest) {
     try {
@@ -24,7 +21,7 @@ export async function POST(request: NextRequest) {
             return Response.json({ error: "Produce type is required." }, { status: 400 })
         }
 
-        // 1. upload to supabase storage and check for error
+        // upload to supabase storage and check for error
         const fileExt = image.name.split(".").pop() || "jpg";
         const filePath = `scans/${crypto.randomUUID()}.${fileExt}`;
 
@@ -39,7 +36,7 @@ export async function POST(request: NextRequest) {
         if (uploadError) {
         return NextResponse.json({ error: `Upload failed: ${uploadError.message}` }, { status: 500 });
         }
-        console.log("Upload result2:", { uploadError });
+
         const { data: publicUrlData } = supabaseServer.storage
             .from("produce-images")
             .getPublicUrl(filePath);
@@ -48,8 +45,6 @@ export async function POST(request: NextRequest) {
 
         const label = await classifyProduceWithGemini(image_url, produceType);
         const { verdict, confidence } = verdictFromLabel(label.verdict, label.confidence);
-        console.log("Upload result1:", { uploadError });
-        //const explanation = await explainWithGemini({ produceType: pt, verdict, confidence });
     
         const { error: insertError } = await supabaseServer.from("scans").insert({
             produce_type: produceType,
@@ -67,8 +62,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({
             verdict,
             confidence,
-            explanation: label.explanation,
-            image_url
+            explanation: label.explanation
         } as ScanResult);
     } catch (err: any) {
         return NextResponse.json({ error: err?.message ?? "Unknown error" }, { status: 500 });

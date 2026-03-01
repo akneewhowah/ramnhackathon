@@ -1,6 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { Verdict } from "@/lib/types";
 
+export const runtime = "nodejs";
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
 export type GeminiClassifierOutput = {
@@ -14,7 +15,7 @@ export async function classifyProduceWithGemini(
     produceType: string
 ): Promise<GeminiClassifierOutput> {
     const model = genAI.getGenerativeModel({
-        model: "gemini-1.5-pro",
+        model: "gemini-2.5-flash",
     });
 
     const prompt = 
@@ -33,7 +34,6 @@ export async function classifyProduceWithGemini(
         "confidence": float number between 0 and 1,
         "explanation": short sentence explaining visible cues
     }`;
-    console.log("Gemini prompt:", prompt);
 
     const result = await model.generateContent([
         { text: prompt },
@@ -48,7 +48,6 @@ export async function classifyProduceWithGemini(
     ]);
 
     const text = result.response.text();
-    console.log("Gemini raw output:", text);
 
     try {
         const start = text.indexOf("{");
