@@ -1,5 +1,8 @@
 import { supabaseServer } from "@/lib/supabaseServer";
 
+
+
+
 export async function GET() {
   const { data, error } = await supabaseServer
     .from("scans")
@@ -21,3 +24,4 @@ export async function GET() {
 
   return Response.json({ success: true, data });
 }
+
