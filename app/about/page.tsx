@@ -1,60 +1,174 @@
-export default function About() {
+import Link from 'next/link'
+
+const GRADES = [
+  {
+    letter: 'A',
+    name: 'Astonishing',
+    color: 'grade-a',
+    desc: 'Distributed to homeless shelters and organizations who need produce with a longer shelf life.',
+  },
+  {
+    letter: 'L',
+    name: 'Livestock',
+    color: 'grade-l',
+    desc: 'Picked up by local farmers to help feed their livestock.',
+  },
+  {
+    letter: 'C',
+    name: 'Compost',
+    color: 'grade-c',
+    desc: 'Composted to return nutrients back to the earth.',
+  },
+]
+
+const VERDICTS = [
+  {
+    label: 'Fresh',
+    verdict: 'GOOD',
+    pill: 'verdict-pill-good',
+    desc: 'This produce meets required quality and safety standards. It is considered safe for consumption and suitable for redistribution.',
+  },
+  {
+    label: 'Unsure',
+    verdict: 'UNSURE',
+    pill: 'verdict-pill-unsure',
+    desc: 'This produce does not completely meet required standards. It is up to individual discretion whether it is safe for consumption.',
+  },
+  {
+    label: 'Unfresh',
+    verdict: 'BAD',
+    pill: 'verdict-pill-bad',
+    desc: 'This produce does not meet quality and safety standards. It is NOT considered safe for consumption and is unsuitable for redistribution.',
+  },
+]
+
+const TEAM = ['Renny', 'Anny', 'Niamh', 'Michele']
+
+export default function AboutPage() {
   return (
-    <main className="container">
-      <div className="about-page">
-        <h1>About Flower City Pickers</h1>
-        
-        <section className="about-section">
-          <h2>Flower City Pickers is an organization dedicated to supporting the Rochester community by providing safe and edible food through the recovery and redistribution. ‘Flower City Pickers strives to establish and grow a platform for waste prevention and civic engagement’. 
+    <div className="app-shell">
 
-</h2>
-        </section>
+      {/* nav */}
+      <nav className="nav">
+        <div className="nav-left">
+          <div className="nav-logo-icon">🌿</div>
+          <span className="nav-logo-text">freshfind</span>
+        </div>
+        <div className="nav-links">
+          <Link href="/"         className="nav-link">Home</Link>
+          <Link href="/dashboard" className="nav-link">Dashboard</Link>
+          <Link href="/history"   className="nav-link">flowercitypickers</Link>
+        </div>
+      </nav>
 
-        <section className="about-section">
-          <h2>How does it work?</h2>
-          <p>
-            Hard working volunteers attend the City of Rochester Public Market to collect  
-            tons of produce donated by generous vendors and recover food that might otherwise end up landfilled. 
-            Doing so contributes to the waste prevention that is ultimately the Flower City Pickers’ cause. 
-      
-            Once food has been recovered, volunteers then sort the food into three different food grades:
-            A (Astonishing)
-Grade A is distributed to homeless shelters and organizations who need produce with a longer shelf life. 
+      <main className="about-main">
 
-L (Livestock)
-Grade L is picked up by local farmers to help feed their livestock.
-
-C (Compost) 
-Grade C is composted. 
-
-          </p>
-        </section>
-
-        <section className="about-section">
-          <h2>Freshness Score</h2>
-          <p>
-            Fresh
-This produce has received a score of (Score), indicating that it meets the required quality and safety standards. Based on this evaluation, it is considered safe for consumption and suitable for redistribution. 
-
-Good Job!
-Unsure
-This produce has received a score of (Score), indicating that it does not completely meet the required quality and safety standards. Based on this evaluation, it is up to the individual's discretion whether this produce is safe for consumption.
-Unfresh
-This produce has received a score of (Score), indicating that it does not meet the required quality and safety standards. Based on this evaluation, it is NOT considered safe for consumption and it is unsuitable for redistribution.
+        {/* domer */}
+        <section className="about-hero">
+          <div className="about-hero-badge">
+            <span className="hero-badge-dot" />  Mission
+          </div>
+          <h1 className="about-hero-title">About Flower City Pickers</h1>
+          <p className="about-hero-sub">
+            Flower City Pickers is an organization dedicated to supporting the Rochester community 
+            by providing safe and edible food through the recovery and redistribution. Flower 
+            City Pickers strives to establish and grow a platform for waste prevention and civic engagement. 
 
           </p>
+          <a
+            href="https://flowercitypickers.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary"
+          >
+            Visit flowercitypickers.com ↗
+          </a>
         </section>
 
+        {/* how it works */}
         <section className="about-section">
-          <h2>Our Team</h2>
-          <p>
-            Renny 
-            Anny 
-            Niamh
-            Michele
-          </p>
+          <h2 className="about-section-title">How does it work?</h2>
+          <div className="about-how-card">
+            
+            <p className="about-how-text">
+             Hard working volunteers attend the City of Rochester Public Market to collect 
+              tons of produce donated by generous vendors and recover food that might otherwise end up landfilled. 
+              
+            Doing so contributes to the waste prevention that is ultimately the Flower City Pickers cause. 
+
+            </p>
+          </div>
+
+          {/* grades  */}
+          <div className="grade-grid">
+            {GRADES.map(g => (
+              <div key={g.letter} className={`grade-card ${g.color}`}>
+                <div className="grade-letter">{g.letter}</div>
+                <div className="grade-name">{g.name}</div>
+                <p className="grade-desc">{g.desc}</p>
+              </div>
+            ))}
+          </div>
         </section>
-      </div>
-    </main>
-  );
+
+        {/* fresh scoring */}
+        <section className="about-section">
+          <h2 className="about-section-title">Freshness Scoring</h2>
+          <p className="about-section-sub">
+            Upload an image to determine a produce item’s freshness score, which is based on the following criteria:
+          </p>
+          <div className="verdict-explainer">
+            {VERDICTS.map(v => (
+              <div key={v.verdict} className="verdict-explain-card">
+                <div className="verdict-explain-top">
+                  <span className={`verdict-pill ${v.pill}`}>
+                    <span className="verdict-pill-dot" />
+                    {v.label}
+                  </span>
+                </div>
+                <p className="verdict-explain-desc">{v.desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* our team!!!!! */}
+        <section className="about-section">
+          <h2 className="about-section-title"> Team</h2>
+          <div className="team-grid">
+            {TEAM.map(name => (
+              <div key={name} className="team-card">
+                <div className="team-avatar">
+                  {name[0]}
+                </div>
+                <p className="team-name">{name}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* blah */}
+        <section className="donate-banner">
+          <span className="donate-banner-icon">🌿</span>
+          <div className="donate-banner-text">
+            <h3 className="donate-banner-title">Want to help reduce food waste?</h3>
+            <p className="donate-banner-sub">
+              Scan your produce with freshfind :3
+            </p>
+          </div>
+          <Link href="/page.tsx" className="btn-dark">Start Scan →</Link>
+        </section>
+
+      </main>
+
+      <footer className="footer">
+        <span>© 2026 findfresh </span>
+        <div className="footer-links">
+          <Link href="/" className="footer-link">Return Home</Link>
+          <a href="https://flowercitypickers.org" className="footer-link" target="_blank" rel="noopener noreferrer">Flower City Pickers</a>
+        </div>
+      </footer>
+
+    </div>
+  )
 }
