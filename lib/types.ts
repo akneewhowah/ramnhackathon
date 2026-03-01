@@ -1,3 +1,4 @@
+export type ProduceType = "tomato" | "potato" | "orange" | "carrot" | "cucumber" | "banana" | "kiwi";
 export type Verdict = 'GOOD' | 'BAD' | 'UNSURE'
 
 export interface ScanResult {
@@ -14,3 +15,8 @@ export interface MockScan {
   confidence: number
   date:       string
 }
+
+export const SCAN_FORM_FIELDS = {
+  image: "image",
+  produce_type: "produce_type",
+} as const;
