@@ -68,6 +68,30 @@ FreshFind empowers individuals to make smarter food decisions and visualize thei
 
 ---
 
+## How it Works
+
+1. User uploads an image of produce.
+
+2. Image is uploaded to Supabase Storage.
+
+3. Image URL is sent to Gemini for classification.
+
+4. Gemini returns:
+
+    - Verdict (GOOD, GOING_BAD, BAD, UNSURE)
+
+    - Confidence score
+
+5. An Explanation is provided 
+
+6. Suggestion
+
+7. Results are saved in the Supabase scans table.
+
+8. UI updates in real time.
+
+---
+
 ## Authors  
 
 Built by:  
