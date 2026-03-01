@@ -929,3 +929,51 @@ body {
 .resource-section-head {
   margin-bottom: 1rem;
 }
+
+.vertical-modal {
+  max-width: 420px;   /* was 500px */
+  width: 92%;
+  border-radius: 20px;
+  padding: 1.5rem;    /* reduced */
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem 1rem;  /* reduced */
+  gap: 1.5rem;           /* tighter spacing */
+  text-align: center;
+}
+
+.emoji-circle {
+  width: 120px;     /* was 150px */
+  height: 120px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.emoji-lg {
+  font-size: 3.75rem;  /* was 5rem */
+}
+
+.confidence-big {
+  font-size: 2rem;   /* was 2.5rem */
+  font-weight: 700;
+  margin: 0;
+}
+
+.analysis-block {
+  width: 100%;
+  max-width: 360px;
+  border-top: 1px solid rgba(0,0,0,0.08);
+  padding-top: 1rem;  /* reduced */
+}
+
+.analysis-body {
+  font-size: 0.9rem;  /* slightly smaller */
+  line-height: 1.5;
+  opacity: 0.85;
+}

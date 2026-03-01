@@ -157,26 +157,30 @@ function ScanDetailModal({
           </button>
         </div>
 
-        {/* Center Content */}
-        <div className="modal-body-vertical">
-          <div className={`emoji-circle ${styles.bg}`}>
-            <span className="text-8xl">
-              {getEmoji(scan.name)}
-            </span>
+        {/* Vertical Layout */}
+        <div className="modal-body">
+          <div className="emoji-wrapper">
+            <div className={`emoji-circle ${styles.bg}`}>
+              <span className="emoji-lg">
+                {getEmoji(scan.name)}
+              </span>
+            </div>
           </div>
 
-          <span className={`verdict-pill ${styles.pill}`}>
-            <span className="verdict-pill-dot" />
-            {VERDICT_LABEL[scan.verdict]}
-          </span>
+          <div className="verdict-section">
+            <span className={`verdict-pill ${styles.pill}`}>
+              <span className="verdict-pill-dot" />
+              {VERDICT_LABEL[scan.verdict]}
+            </span>
 
-          <p className={`confidence ${styles.text}`}>
-            {Math.round(scan.confidence * 100)}%
-          </p>
+            <p className={`confidence-big ${styles.text}`}>
+              {Math.round(scan.confidence * 100)}%
+            </p>
+          </div>
 
-          <div className="analysis-section">
-            <p className="analysis-label">✦ Gemini Analysis</p>
-            <p className="analysis-text">
+          <div className="analysis-block">
+            <p className="analysis-title">✦ Gemini Analysis</p>
+            <p className="analysis-body">
               {scan.explanation ||
                 'No Gemini analysis available yet.'}
             </p>
