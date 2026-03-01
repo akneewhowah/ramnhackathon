@@ -22,8 +22,12 @@ html { scroll-behavior: smooth; }
 body {
   background-color: var(--cream);
   color: var(--text);
-  font-family: 'DM Sans', system-ui, sans-serif;
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+.stat-value, .result-title, .conf-value, .hero-title, .about-hero-title, .nav-logo-text, .section-title {
+  font-family: var(--font-fraunces), serif;
 }
 
 /* app*/
@@ -124,6 +128,10 @@ body {
 }
 
 /* section */
+.hero-title, .about-hero-title, .nav-logo-text {
+  font-family: var(--font-fraunces), serif;
+}
+
 .hero-section {
   display: grid;
   grid-template-columns: 1fr 1fr;

@@ -18,7 +18,7 @@ export default function DonateBanner() {
         rel="noopener noreferrer"
         className="btn-dark"
       >
-        Flower City Pickers 
+        Donate Here! 
       </a>
     </section>
   )

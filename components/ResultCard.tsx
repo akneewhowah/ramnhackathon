@@ -74,7 +74,7 @@ export default function ResultCard({ result, produceType }: ResultCardProps) {
       {result.verdict !== 'GOOD' && (
         <div className="donate-nudge">
           <p className="donate-nudge-text">
-            Don&apos;t waste it —{' '}
+            Don&apos;t waste it!{' '}
             <a
               href="https://flowercitypickers.org"
               target="_blank"

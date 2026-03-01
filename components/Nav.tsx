@@ -19,7 +19,7 @@ export default function Nav({ onNewScan }: NavProps) {
           rel="noopener noreferrer"
           className="nav-link"
         >
-          flowercitypickers 
+          Flower City Pickers
         </a>
         <button className="nav-btn" onClick={onNewScan}>
           New Scan 
