@@ -6,6 +6,7 @@ By combining image uploads with AI classification through Gemini, FreshFind prom
 We built freshfind after volunteering with Flower City Pickers, a Rochester-based organization that recovers and redistributes produce from the City of Rochester Public Market.
 
 freshfind is our answer. Whether you're a volunteer sorting donations, a student clearing out your fridge, or someone trying to stretch your groceries further, freshfind helps you stay informed about your food and reduce the waste that ends up in landfills every day.
+
 ---
 
 ## Features  
