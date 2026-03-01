@@ -23,10 +23,10 @@ export default function Hero({ onUploadClick }: HeroProps) {
 
       <div className="hero-actions">
         <button className="btn-primary" onClick={onUploadClick}>
-          📸 Upload a Photo
+          Upload Photo
         </button>
         <a href="#recent" className="btn-ghost">
-          See it in action →
+          Test it out:
         </a>
       </div>
     </div>

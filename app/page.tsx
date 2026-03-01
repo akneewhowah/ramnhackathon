@@ -37,9 +37,9 @@ export default function Home() {
           <Hero onUploadClick={() => fileRef.current?.click()} />
           <UploadCard
             fileRef={fileRef}
-            onResult={(data) => {
+            onResult={(data, type) => {
               setResult(data as ScanResult)
-              setProduceType(produceType)
+              setProduceType(type)
             }}
             onLoading={setLoading}
           />
